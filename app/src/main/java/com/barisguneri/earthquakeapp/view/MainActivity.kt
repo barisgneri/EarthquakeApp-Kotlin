@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp
+package com.barisguneri.earthquakeapp.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
