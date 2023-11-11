@@ -10,9 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.barisguneri.earthquakeapp.ui.theme.EarthquakeAppTheme
+import com.barisguneri.earthquakeapp.viewmodel.EarthquakeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -30,9 +35,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(name: String, modifier: Modifier = Modifier, viewModel: EarthquakeViewModel = hiltViewModel()) {
     Text(
-        text = "Hello $name!",
+        text = "Hello ${viewModel.earthquakeList.value}!",
         modifier = modifier
     )
 }
