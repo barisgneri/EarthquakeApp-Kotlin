@@ -14,48 +14,28 @@ import javax.inject.Inject
 @HiltViewModel
 class EarthquakeViewModel @Inject constructor(val repository: EarthquakeRepository) :
     ViewModel() {
-        var earthquakeList = mutableStateOf<List<Earthquake>>(listOf())
-        var errorMsg = mutableStateOf("")
-        var isLoading = mutableStateOf(false)
+    var earthquakeList = mutableStateOf<List<Result>>(listOf())
+    var errorMsg = mutableStateOf("")
+    var isLoading = mutableStateOf(false)
 
     init {
         loadEarthquakeList()
     }
 
-    private fun loadEarthquakeList(){
+    private fun loadEarthquakeList() {
         viewModelScope.launch {
             isLoading.value = true
             val result = repository.getEarthquakeList()
-            when(result){
+            when (result) {
                 is Resource.Success -> {
-                    val allEarthquake = result.data?.result?.mapIndexed{ index, earthquake ->
-
-                    } as List<Earthquake>
+                    val allEarthquake = result.data?.result as List<Result>
                     earthquakeList.value += allEarthquake
-
                 }
+
                 is Resource.Error -> {
                 }
+
                 else -> {}
-            }
-        }
-    }
-
-                    val cryptoItems = result.data!!.mapIndexed { index, item ->
-                        CryptoListItem(item.currency,item.price)
-                    } as List<CryptoListItem>
-
-                    errorMessage.value = ""
-                    isLoading.value = false
-                    cryptoList.value += cryptoItems
-                }
-                is Resource.Error -> {
-                    errorMessage.value = result.message!!
-                    isLoading.value = false
-                }
-                is Resource.Loading -> {
-                    errorMessage.value = ""
-                }
             }
         }
     }

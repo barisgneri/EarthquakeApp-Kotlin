@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface EarthquakeApi {
 
-    @GET("live")
+    @GET("deprem/kandilli/live")
     suspend fun getEarthquakeList() : Earthquake
 }
