@@ -35,31 +35,28 @@ import androidx.navigation.NavController
 import com.barisguneri.earthquakeapp.model.Earthquake
 import com.barisguneri.earthquakeapp.model.Result
 import com.barisguneri.earthquakeapp.viewmodel.EarthquakeViewModel
-
-class ListScreen {
-}
 @Composable
-fun EarthquakeList(context: Context, viewModel: EarthquakeViewModel = hiltViewModel()){
+fun ListScreen(navController: NavController, context: Context, viewModel: EarthquakeViewModel = hiltViewModel()){
     val earthquakeList by remember {viewModel.earthquakeList}
-    EarthquakeListView(earthquake = earthquakeList, context = context)
+    EarthquakeListView(earthquake = earthquakeList, context = context, navController)
 }
 
 @Composable
-fun EarthquakeListView(earthquake: List<Result>, context: Context){
+fun EarthquakeListView(earthquake: List<Result>, context: Context, navController: NavController){
     LazyColumn(contentPadding = PaddingValues(5.dp)){
         items(earthquake) { earthquakes ->
-            EarthquakeListItem(context, earthquake = earthquakes)
+            EarthquakeListItem(navController,context, earthquake = earthquakes)
         }
     }
 }
 @Composable
-fun EarthquakeListItem(context: Context, earthquake: Result) {
+fun EarthquakeListItem(navController: NavController, context: Context, earthquake: Result) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White)
             .clickable {
-                println(earthquake)
+                navController.navigate("map_screen/${earthquake.geojson.coordinates[1]}/${earthquake.geojson.coordinates[0]}")
             },
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

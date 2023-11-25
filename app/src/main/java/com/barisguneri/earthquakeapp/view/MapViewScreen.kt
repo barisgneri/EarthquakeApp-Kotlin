@@ -3,8 +3,11 @@ package com.barisguneri.earthquakeapp.view
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavController
 import com.barisguneri.earthquakeapp.R
+import com.barisguneri.earthquakeapp.util.Constants
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -13,12 +16,15 @@ import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.infowindow.InfoWindow
 
 @Composable
-fun OsmdroidMapView() {
+fun MapViewScreen(latitude: String, longitude: String, navController: NavController) {
+    var latitudeDouble = latitude.toDouble()
+    var longitudeDouble = longitude.toDouble()
+
     AndroidView(
         modifier = Modifier.fillMaxSize(),
         factory = { context ->
             MapView(context).apply {
-                setTileSource(TileSourceFactory.USGS_TOPO)
+                setTileSource(TileSourceFactory.CLOUDMADESMALLTILES)
                 this.setTileSource(TileSourceFactory.MAPNIK)
                 this.setBuiltInZoomControls(true)
                 this.setMultiTouchControls(true)
@@ -27,12 +33,12 @@ fun OsmdroidMapView() {
             }
         },
         update = { view ->
-            view.controller.setZoom(9.0)
-            view.controller.setCenter(GeoPoint(41.0719461, 28.200803))
+            view.controller.setZoom(Constants.zoomValue)
+            view.controller.setCenter(GeoPoint(latitudeDouble, longitudeDouble))
             val marker = Marker(
                 view
             )
-            marker.position = GeoPoint(41.0719461, 28.200803)
+            marker.position = GeoPoint(latitudeDouble, longitudeDouble)
             marker.title = "Test 6tgsf"
             marker.subDescription = "fgjmksdöfl ıjvmkfvmık trvmmırmvrtvfv ver er erferfefr"
 
