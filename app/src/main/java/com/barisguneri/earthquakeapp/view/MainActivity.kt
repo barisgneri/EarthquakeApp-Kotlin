@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.barisguneri.earthquakeapp.ScreenNavigation
 import com.barisguneri.earthquakeapp.ui.theme.EarthquakeAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import org.osmdroid.config.Configuration
@@ -26,33 +27,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             EarthquakeAppTheme {
-                val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "list_screen", builder ={
-                    composable("list_screen"){
-                        ListScreen(navController = navController, context = this@MainActivity)
-                    }
-                    composable("map_screen/{latitude}/{longitude}", arguments = listOf(
-                        navArgument("latitude"){
-                            type = NavType.StringType
-                        },
-                        navArgument("longitude"){
-                            type = NavType.StringType
-                        }
-                    )){
-                        val latitude = remember {
-                            it.arguments?.getString("latitude")
-                        }
-
-                        val longitude = remember {
-                            it.arguments?.getString("longitude")
-                        }
-
-                        if (latitude != null && longitude != null){
-                            MapViewScreen(latitude, longitude, navController)
-                        }
-
-                    }
-                })
+                ScreenNavigation()
             }
             val ctx = applicationContext
             Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx))

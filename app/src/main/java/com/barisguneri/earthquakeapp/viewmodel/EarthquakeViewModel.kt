@@ -1,5 +1,7 @@
 package com.barisguneri.earthquakeapp.viewmodel
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,17 +19,20 @@ class EarthquakeViewModel @Inject constructor(val repository: EarthquakeReposito
     var earthquakeList = mutableStateOf<List<Result>>(listOf())
     var errorMsg = mutableStateOf("")
     var isLoading = mutableStateOf(false)
+    private var _earthquake: MutableState<List<Result>>? = earthquakeList
+    val earthquake: State<List<Result>>? = _earthquake
 
     init {
         loadEarthquakeList()
     }
 
-    private fun loadEarthquakeList() {
+    fun loadEarthquakeList() {
         viewModelScope.launch {
             isLoading.value = true
             val result = repository.getEarthquakeList()
             when (result) {
                 is Resource.Success -> {
+                    earthquakeList.value = listOf()
                     val allEarthquake = result.data?.result as List<Result>
                     earthquakeList.value += allEarthquake
                 }
@@ -38,5 +43,9 @@ class EarthquakeViewModel @Inject constructor(val repository: EarthquakeReposito
                 else -> {}
             }
         }
+    }
+
+    fun setEarthquake(_data: Result) {
+        _earthquake?.value = listOf(_data)
     }
 }

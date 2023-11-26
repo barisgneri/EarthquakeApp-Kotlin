@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,32 +32,40 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.barisguneri.earthquakeapp.MAP_SCREEN
 import com.barisguneri.earthquakeapp.model.Earthquake
 import com.barisguneri.earthquakeapp.model.Result
 import com.barisguneri.earthquakeapp.viewmodel.EarthquakeViewModel
+import kotlinx.coroutines.launch
+
 @Composable
-fun ListScreen(navController: NavController, context: Context, viewModel: EarthquakeViewModel = hiltViewModel()){
+fun ListScreen(navController: NavHostController, viewModel: EarthquakeViewModel){
     val earthquakeList by remember {viewModel.earthquakeList}
-    EarthquakeListView(earthquake = earthquakeList, context = context, navController)
+    println(earthquakeList)
+    EarthquakeListView(earthquake = earthquakeList, navController, viewModel = viewModel)
 }
 
 @Composable
-fun EarthquakeListView(earthquake: List<Result>, context: Context, navController: NavController){
+fun EarthquakeListView(earthquake: List<Result>, navController: NavHostController, viewModel: EarthquakeViewModel){
     LazyColumn(contentPadding = PaddingValues(5.dp)){
         items(earthquake) { earthquakes ->
-            EarthquakeListItem(navController,context, earthquake = earthquakes)
+            EarthquakeListItem(navController, earthquake = earthquakes, viewModel)
         }
     }
 }
 @Composable
-fun EarthquakeListItem(navController: NavController, context: Context, earthquake: Result) {
+fun EarthquakeListItem(navController: NavHostController, earthquake: Result, viewModel: EarthquakeViewModel) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White)
             .clickable {
-                navController.navigate("map_screen/${earthquake.geojson.coordinates[1]}/${earthquake.geojson.coordinates[0]}")
+                viewModel.setEarthquake(earthquake)
+                navController.navigate(MAP_SCREEN)
             },
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

@@ -6,8 +6,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.barisguneri.earthquakeapp.R
 import com.barisguneri.earthquakeapp.util.Constants
+import com.barisguneri.earthquakeapp.viewmodel.EarthquakeViewModel
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -16,9 +18,12 @@ import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.infowindow.InfoWindow
 
 @Composable
-fun MapViewScreen(latitude: String, longitude: String, navController: NavController) {
-    var latitudeDouble = latitude.toDouble()
-    var longitudeDouble = longitude.toDouble()
+fun MapViewScreen(navController: NavHostController, viewModel: EarthquakeViewModel) {
+    val latitudeDouble = viewModel.earthquake?.value?.get(0)?.geojson?.coordinates?.get(1) ?: 0.0
+    val longitudeDouble = viewModel.earthquake?.value?.get(0)?.geojson?.coordinates?.get(0) ?: 0.0
+    val title = viewModel.earthquake?.value?.get(0)?.title
+    val epiCenterName = viewModel.earthquake?.value?.get(0)?.location_properties?.epiCenter?.name
+    val epiCenterPopulation = viewModel.earthquake?.value?.get(0)?.location_properties?.epiCenter?.population
 
     AndroidView(
         modifier = Modifier.fillMaxSize(),
@@ -39,8 +44,8 @@ fun MapViewScreen(latitude: String, longitude: String, navController: NavControl
                 view
             )
             marker.position = GeoPoint(latitudeDouble, longitudeDouble)
-            marker.title = "Test 6tgsf"
-            marker.subDescription = "fgjmksdöfl ıjvmkfvmık trvmmırmvrtvfv ver er erferfefr"
+            marker.title = title
+            marker.subDescription = "İl: $epiCenterName\nNüfus: $epiCenterPopulation"
 
             val overlayManager = view.getOverlayManager()
             overlayManager.add(marker)
