@@ -19,14 +19,14 @@ class EarthquakeViewModel @Inject constructor(val repository: EarthquakeReposito
     var earthquakeList = mutableStateOf<List<Result>>(listOf())
     var errorMsg = mutableStateOf("")
     var isLoading = mutableStateOf(false)
-    private var _earthquake: MutableState<List<Result>>? = earthquakeList
+    private var _earthquake: MutableState<List<Result>>? = mutableStateOf<List<Result>>(emptyList())
     val earthquake: State<List<Result>>? = _earthquake
 
     init {
         loadEarthquakeList()
     }
 
-    fun loadEarthquakeList() {
+    private fun loadEarthquakeList() {
         viewModelScope.launch {
             isLoading.value = true
             val result = repository.getEarthquakeList()
