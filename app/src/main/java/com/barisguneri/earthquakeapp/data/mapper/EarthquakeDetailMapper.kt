@@ -1,0 +1,58 @@
+package com.barisguneri.earthquakeapp.data.mapper
+
+import com.barisguneri.earthquakeapp.data.api.model.AirportDTO
+import com.barisguneri.earthquakeapp.data.api.model.ClosestCityDTO
+import com.barisguneri.earthquakeapp.data.api.model.EarthquakeDTO
+import com.barisguneri.earthquakeapp.data.api.model.EpiCenterDTO
+import com.barisguneri.earthquakeapp.data.api.model.ResultDTO
+import com.barisguneri.earthquakeapp.domain.model.Airports
+import com.barisguneri.earthquakeapp.domain.model.ClosestCities
+import com.barisguneri.earthquakeapp.domain.model.EarthquakeDetail
+import com.barisguneri.earthquakeapp.domain.model.EpiCenter
+import com.barisguneri.earthquakeapp.domain.model.Location
+
+fun ResultDTO.toDetailModel() : EarthquakeDetail{
+    val cordinates = Location(this.geoJson.coordinates[1], this.geoJson.coordinates[0])
+    return EarthquakeDetail(
+        id = this.earthquakeId,
+        location = cordinates,
+        magnitude = this.mag,
+        date = this.date,
+        dateTime = this.dateTime,
+        depthInfo = this.depth.toString(),
+        title = this.title,
+        airports = this.toAirportsModel(),
+        epiCenter = this.locationProperties.epiCenter.toDomain(),
+        closestCities = this.toClosestCities()
+    )
+}
+
+fun ResultDTO.toAirportsModel() : List<Airports>{
+    return this.locationProperties.airport.map {
+            Airports(
+                code = it.code,
+                coordinates = Location(it.coordinates.coordinates[1], it.coordinates.coordinates[0]),
+                distance = it.distance,
+                name = it.name
+            )
+    }
+}
+
+fun EpiCenterDTO.toDomain() : EpiCenter {
+    return EpiCenter(
+        name = this.name,
+        population = this.population,
+        code = this.cityCode
+    )
+}
+
+fun ResultDTO.toClosestCities() : List<ClosestCities>{
+    return this.locationProperties.closestCities.map {
+            ClosestCities(
+                name = it.name,
+                distance = it.distance,
+                population = it.population,
+                cityCode = it.cityCode
+            )
+    }
+}

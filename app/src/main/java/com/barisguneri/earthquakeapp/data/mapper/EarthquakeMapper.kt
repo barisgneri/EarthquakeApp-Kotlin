@@ -7,7 +7,7 @@ import com.barisguneri.earthquakeapp.domain.model.Location
 
 fun ResultDTO.toDomain() : EarthquakeInfo {
     return EarthquakeInfo(
-        id = this.id,
+        id = this.earthquakeId,
         location = Location(
             lat = this.geoJson.coordinates[1],
             long = this.geoJson.coordinates[0]

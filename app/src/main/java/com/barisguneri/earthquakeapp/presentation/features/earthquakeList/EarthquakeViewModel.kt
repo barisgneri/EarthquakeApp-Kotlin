@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.presentation.earthquake
+package com.barisguneri.earthquakeapp.presentation.features.earthquakeList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +8,6 @@ import com.barisguneri.earthquakeapp.domain.useCase.GetEarthquakesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.presentation.earthquake
+package com.barisguneri.earthquakeapp.presentation.features.earthquakeList
 
 import androidx.paging.PagingData
 import com.barisguneri.earthquakeapp.common.ErrorType

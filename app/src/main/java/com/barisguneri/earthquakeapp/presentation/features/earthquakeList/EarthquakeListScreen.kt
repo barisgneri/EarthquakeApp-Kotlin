@@ -1,40 +1,47 @@
-package com.barisguneri.earthquakeapp.presentation.earthquake
+package com.barisguneri.earthquakeapp.presentation.features.earthquakeList
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.barisguneri.earthquakeapp.R
 import com.barisguneri.earthquakeapp.common.ErrorType
 import com.barisguneri.earthquakeapp.common.PagingException
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
+import com.barisguneri.earthquakeapp.core.presentation.ErrorView
+import com.barisguneri.earthquakeapp.core.presentation.MapView
+import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
+import com.barisguneri.earthquakeapp.presentation.features.earthquakeList.component.EarthquakeItem
+import org.osmdroid.util.GeoPoint
 
 @Composable
-fun ListScreen(
+fun EarthquakeListScreen(
+    onNavigateToEarthquakeDetail: (earthquakeId: String) -> Unit,
     viewModel: EarthquakeViewModel = hiltViewModel()
 ){
     // ViewModel'deki StateFlow'u, lifecycle'a duyarlı bir şekilde dinliyoruz.
@@ -48,17 +55,20 @@ fun ListScreen(
 
     EarthquakeContent(
         pagingItems = pagingItems,
-        onEvent = viewModel::onEvent
+        onEvent = viewModel::onEvent,
+        onEarthquakeClick = onNavigateToEarthquakeDetail
     )
 }
 
 @Composable
 private fun EarthquakeContent(
     pagingItems: LazyPagingItems<EarthquakeInfo>,
-    onEvent: (EarthquakeScreenEvent) -> Unit
+    onEvent: (EarthquakeScreenEvent) -> Unit,
+    onEarthquakeClick: (earthquakeId: String) -> Unit
 ) {
+    val allEarthquakes = remember { mutableStateListOf<EarthquakeInfo>() }
     Box(modifier = Modifier.fillMaxSize()) {
-
+        //TopMapContent(earthquakeInfo = allEarthquakes)
         // `loadState.refresh`, listenin ilk kez yüklendiği veya elle yenilendiği durumu temsil eder.
         // Bu, bizim `State` sınıfımızdaki `isLoading`/`error`'dan daha spesifiktir,
         // çünkü doğrudan Paging verisiyle ilgilidir.
@@ -77,12 +87,13 @@ private fun EarthquakeContent(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
-            else -> {
+            else ->
                 // Yükleme başarılı oldu veya henüz başlamadı. Listeyi göster.
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White),
+                    contentPadding = PaddingValues(8.dp),
                 ) {
                     items(
                         count = pagingItems.itemCount,
@@ -90,7 +101,8 @@ private fun EarthquakeContent(
                     ) { index ->
                         val earthquake = pagingItems[index]
                         earthquake?.let {
-                            EarthquakeItem(earthquake = it)
+                            allEarthquakes.add(it)
+                            EarthquakeItem(earthquake = it, onClick = { onEarthquakeClick(it.id) })
                         }
                     }
 
@@ -98,17 +110,18 @@ private fun EarthquakeContent(
                     when (pagingItems.loadState.append) {
                         is LoadState.Loading -> {
                             item {
-                                Box(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)) {
+                                Box(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = dimensionResource(R.dimen.size16dp))) {
                                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                                 }
                             }
                         }
                         is LoadState.Error -> {
-                            // Opsiyonel: Listenin sonunda hata olursa gösterilecek item
                             item {
-                                Text("Daha fazla yüklenemedi. Lütfen tekrar deneyin.")
+                                Text(stringResource(R.string.no_more_load_please_try_again))
                                 Button(onClick = { pagingItems.retry() }) {
-                                    Text("Tekrar Dene")
+                                    Text(stringResource(R.string.try_again))
                                 }
                             }
                         }
@@ -116,60 +129,24 @@ private fun EarthquakeContent(
                     }
                 }
             }
-        }
     }
 }
 
 @Composable
-fun EarthquakeItem(earthquake: EarthquakeInfo) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(text = earthquake.title, style = MaterialTheme.typography.titleMedium)
-                Text(text = "${earthquake.date} - ${earthquake.dateTime}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Text(text = "${earthquake.depthInfo} - ${earthquake.magnitude} - ${earthquake.location.lat} - ${earthquake.location.long}" , style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = "%.1f".format(earthquake.magnitude),
-                style = MaterialTheme.typography.headlineSmall,
-                color = when {
-                    earthquake.magnitude >= 5.0 -> MaterialTheme.colorScheme.error
-                    earthquake.magnitude >= 4.0 -> MaterialTheme.colorScheme.primary
-                    else -> MaterialTheme.colorScheme.onSurface
-                }
+fun TopMapContent(modifier: Modifier = Modifier, earthquakeInfo: SnapshotStateList<EarthquakeInfo>) {
+    Card(modifier = modifier.wrapContentSize(), shape = RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp)) {
+        MapView(modifier = modifier.fillMaxSize(), markersData = earthquakeInfo.map { detail ->
+            MapMarkerData(
+                position = GeoPoint(
+                    detail.location.lat,
+                    detail.location.long
+                ),
+                title = detail.title,
+                subDescription = "İl: ${detail.title}}\nBüyüklük: ${detail.magnitude}",
+                magnitude = detail.magnitude
             )
         }
-    }
-}
-
-@Composable
-fun ErrorView(
-    errorType: ErrorType,
-    onRetry: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val message = when (errorType) {
-        is ErrorType.NoInternetConnection -> "İnternet bağlantınızı kontrol edin."
-        is ErrorType.HttpError -> "Sunucuya ulaşırken bir sorun oluştu. (Kod: ${errorType.code})"
-        else -> "Beklenmedik bir hata oluştu. Lütfen tekrar deneyin."
-    }
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(text = message, style = MaterialTheme.typography.bodyLarge)
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onRetry) {
-            Text("Tekrar Dene")
-        }
+        )
     }
 }
 
