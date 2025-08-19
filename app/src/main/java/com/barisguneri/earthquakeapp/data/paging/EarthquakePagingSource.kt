@@ -40,8 +40,10 @@ class EarthquakePagingSource(private val apiService: KandilliApiService) : Pagin
                     nextKey = if (domainList.isEmpty()) null else pageNumber + 1 // Sonraki sayfanın anahtarı
                 )
             }else{
-                // HTTP hatası varsa (4xx, 5xx), bunu kendi özel hata modelime çevir.
-                LoadResult.Error(PagingException(ErrorType.HttpError(response.code(), response.message())))
+                when(response.code()){
+                    429 -> LoadResult.Error(PagingException(ErrorType.TooManyRequests))
+                    else -> LoadResult.Error(PagingException(ErrorType.HttpError(response.code(), response.message())))
+                }
             }
 
         }catch (e: Exception){

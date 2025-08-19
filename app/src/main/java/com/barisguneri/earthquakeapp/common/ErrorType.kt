@@ -9,6 +9,9 @@ sealed class ErrorType {
      */
     object NoInternetConnection : ErrorType()
 
+    //{"status":false,"httpStatus":429,"desc":"Too Many Request in 1 minute! Requests limited in 1 minute maximum 40 times"}
+    object TooManyRequests : ErrorType()
+
     /**
      * API'den 2xx dışında bir HTTP durum kodu (404, 500, 401 vb.) döndüğünde oluşur.
      * @param code HTTP durum kodu.

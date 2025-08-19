@@ -43,7 +43,7 @@ import org.osmdroid.util.GeoPoint
 fun EarthquakeListScreen(
     onNavigateToEarthquakeDetail: (earthquakeId: String) -> Unit,
     viewModel: EarthquakeViewModel = hiltViewModel()
-){
+) {
     // ViewModel'deki StateFlow'u, lifecycle'a duyarlı bir şekilde dinliyoruz.
     // `collectAsStateWithLifecycle`, ekran arka plana gittiğinde gereksiz yere
     // veri toplamayı durdurur. Bu, pil ömrü ve performans için kritiktir.
@@ -77,6 +77,7 @@ private fun EarthquakeContent(
                 // İlk Yükleme Durumu
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
+
             is LoadState.Error -> {
                 // İlk Yükleme Hatası Durumu
                 // PagingSource'ta fırlattığımız özel PagingException'ı burada yakalıyoruz.
@@ -87,6 +88,7 @@ private fun EarthquakeContent(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
+
             else ->
                 // Yükleme başarılı oldu veya henüz başlamadı. Listeyi göster.
                 LazyColumn(
@@ -97,7 +99,7 @@ private fun EarthquakeContent(
                 ) {
                     items(
                         count = pagingItems.itemCount,
-                        key = { index -> pagingItems[index]?.id ?: index } // Performans için anahtar
+                        key = { index -> (pagingItems[index]?.id + index) } // Performans için anahtar apiden aynı id döndüğü için index ekledim
                     ) { index ->
                         val earthquake = pagingItems[index]
                         earthquake?.let {
@@ -107,34 +109,50 @@ private fun EarthquakeContent(
                     }
 
                     // Listenin sonuna gelindiğinde yeni sayfa yükleniyorsa...
-                    when (pagingItems.loadState.append) {
+                    when (val appendState = pagingItems.loadState.append) {
                         is LoadState.Loading -> {
                             item {
-                                Box(modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = dimensionResource(R.dimen.size16dp))) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = dimensionResource(R.dimen.size16dp))
+                                ) {
                                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                                 }
                             }
                         }
+
                         is LoadState.Error -> {
+                            val error = appendState.error as PagingException
+                            val errorTitle = if (error.errorType == ErrorType.TooManyRequests) {
+                                R.string.too_many_request
+                            } else {
+                                R.string.no_more_load_please_try_again
+                            }
                             item {
-                                Text(stringResource(R.string.no_more_load_please_try_again))
+                                Text(stringResource(errorTitle))
                                 Button(onClick = { pagingItems.retry() }) {
                                     Text(stringResource(R.string.try_again))
                                 }
                             }
                         }
+
                         else -> {}
                     }
                 }
-            }
+        }
     }
 }
 
 @Composable
-fun TopMapContent(modifier: Modifier = Modifier, earthquakeInfo: SnapshotStateList<EarthquakeInfo>) {
-    Card(modifier = modifier.wrapContentSize(), shape = RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp)) {
+fun TopMapContent(
+    modifier: Modifier = Modifier,
+    earthquakeInfo: SnapshotStateList<EarthquakeInfo>
+) {
+    Card(
+        modifier = modifier.wrapContentSize(),
+        shape = RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp)
+    ) {
         MapView(modifier = modifier.fillMaxSize(), markersData = earthquakeInfo.map { detail ->
             MapMarkerData(
                 position = GeoPoint(
@@ -150,12 +168,12 @@ fun TopMapContent(modifier: Modifier = Modifier, earthquakeInfo: SnapshotStateLi
     }
 }
 
-private fun magColor(mag: Double) : Color{
-    return if (mag > 4 && mag < 5.0){
+private fun magColor(mag: Double): Color {
+    return if (mag > 4 && mag < 5.0) {
         Color.Yellow
-    }else if(mag > 5.0){
+    } else if (mag > 5.0) {
         Color.Red
-    }else{
+    } else {
         Color.Black
     }
 }

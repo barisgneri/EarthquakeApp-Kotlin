@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp
+package com.barisguneri.earthquakeapp.di
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
