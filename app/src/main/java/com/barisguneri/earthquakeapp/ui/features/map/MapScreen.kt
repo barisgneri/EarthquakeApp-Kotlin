@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.presentation.features.map
+package com.barisguneri.earthquakeapp.ui.features.map
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

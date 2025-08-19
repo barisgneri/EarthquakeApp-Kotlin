@@ -1,8 +1,8 @@
-package com.barisguneri.earthquakeapp.presentation.features.splash
+package com.barisguneri.earthquakeapp.ui.features.splash
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.barisguneri.earthquakeapp.presentation.navigation.MainScreen
+import com.barisguneri.earthquakeapp.ui.navigation.MainScreen
 
 fun NavGraphBuilder.splashNavigation(
     navigateToHome: () -> Unit

@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.presentation.features.splash
+package com.barisguneri.earthquakeapp.ui.features.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

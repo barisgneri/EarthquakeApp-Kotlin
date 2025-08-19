@@ -1,10 +1,10 @@
-package com.barisguneri.earthquakeapp.presentation.navigation.graph
+package com.barisguneri.earthquakeapp.ui.navigation.graph
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.barisguneri.earthquakeapp.presentation.navigation.MainScreen
+import com.barisguneri.earthquakeapp.ui.navigation.MainScreen
 
 @Composable
 fun RootNavGraph(

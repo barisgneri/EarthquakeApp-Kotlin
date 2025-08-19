@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.presentation.features.detail
+package com.barisguneri.earthquakeapp.ui.features.detail
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.gestures.Orientation

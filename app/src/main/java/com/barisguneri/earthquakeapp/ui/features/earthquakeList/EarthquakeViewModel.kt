@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.presentation.features.earthquakeList
+package com.barisguneri.earthquakeapp.ui.features.earthquakeList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.presentation.navigation.bottom
+package com.barisguneri.earthquakeapp.ui.navigation.bottom
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

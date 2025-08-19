@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.presentation.navigation.graph
+package com.barisguneri.earthquakeapp.ui.navigation.graph
 
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -10,11 +10,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.barisguneri.earthquakeapp.presentation.features.earthquakeList.EarthquakeListScreen
-import com.barisguneri.earthquakeapp.presentation.features.map.MapScreen
-import com.barisguneri.earthquakeapp.presentation.navigation.BottomScreen
-import com.barisguneri.earthquakeapp.presentation.navigation.MainScreen
-import com.barisguneri.earthquakeapp.presentation.navigation.bottom.EarthquakeBottomBar
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListScreen
+import com.barisguneri.earthquakeapp.ui.features.map.MapScreen
+import com.barisguneri.earthquakeapp.ui.navigation.BottomScreen
+import com.barisguneri.earthquakeapp.ui.navigation.MainScreen
+import com.barisguneri.earthquakeapp.ui.navigation.bottom.EarthquakeBottomBar
 
 fun NavGraphBuilder.bottomNavGraph(
     navController: NavHostController,

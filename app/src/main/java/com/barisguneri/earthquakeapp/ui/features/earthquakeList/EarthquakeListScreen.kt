@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.presentation.features.earthquakeList
+package com.barisguneri.earthquakeapp.ui.features.earthquakeList
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -36,7 +36,7 @@ import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 import com.barisguneri.earthquakeapp.core.presentation.ErrorView
 import com.barisguneri.earthquakeapp.core.presentation.MapView
 import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
-import com.barisguneri.earthquakeapp.presentation.features.earthquakeList.component.EarthquakeItem
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.component.EarthquakeItem
 import org.osmdroid.util.GeoPoint
 
 @Composable

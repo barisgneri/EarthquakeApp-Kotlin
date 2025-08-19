@@ -1,12 +1,12 @@
-package com.barisguneri.earthquakeapp.presentation.navigation.graph
+package com.barisguneri.earthquakeapp.ui.navigation.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.barisguneri.earthquakeapp.presentation.features.detail.EarthquakeDetailContent
-import com.barisguneri.earthquakeapp.presentation.features.detail.EarthquakeDetailScreen
-import com.barisguneri.earthquakeapp.presentation.features.splash.SplashScreen
-import com.barisguneri.earthquakeapp.presentation.navigation.MainScreen
+import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailContent
+import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailScreen
+import com.barisguneri.earthquakeapp.ui.features.splash.SplashScreen
+import com.barisguneri.earthquakeapp.ui.navigation.MainScreen
 
 fun NavGraphBuilder.mainNavGraph(
     navController: NavHostController,

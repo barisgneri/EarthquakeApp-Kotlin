@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.presentation.navigation
+package com.barisguneri.earthquakeapp.ui.navigation
 
 import kotlinx.serialization.Serializable
 
