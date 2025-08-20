@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -17,9 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
@@ -36,13 +41,9 @@ fun EarthquakeBottomBar(
     val currentDestination = navBackStackEntry?.destination
     val bottomNavItems = remember { BottomNavigationItems.getItems() }
 
-    Box(
-        modifier = Modifier.background(color = Color.Gray)
-    ) {
+    Box{
         NavigationBar(
-            modifier = modifier.background(color = Color.Gray),
-            containerColor = Color.DarkGray,
-            contentColor = Color.Black
+            containerColor = Color.White,
         ) {
             bottomNavItems.forEach { screen ->
                 val selected =
@@ -51,15 +52,16 @@ fun EarthquakeBottomBar(
                     icon = {
                         Icon(
                             imageVector = ImageVector.vectorResource(screen.icon),
-                            contentDescription = screen.name,
-                            tint = if (selected) Color.Green else Color.Red,
-                            modifier = Modifier.height(20.dp)
+                            contentDescription = stringResource(id = screen.name),
+                            tint = if (selected) Color.Black else Color.Gray,
+                            modifier = Modifier.height(26.dp),
                         )
                     },
                     label = {
                         Text(
-                            text = screen.name,
+                            text = stringResource(id = screen.name),
                             color = Color.Black,
+
                         )
                     },
                     selected = selected,
@@ -67,11 +69,6 @@ fun EarthquakeBottomBar(
                         navController.navigateReorderBackStack(screen.route)
                     },
                     enabled = !selected,
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color.Green,
-                        unselectedIconColor = Color.White,
-                        indicatorColor = Color.Transparent
-                    ),
                     alwaysShowLabel = true
                 )
             }
@@ -79,8 +76,8 @@ fun EarthquakeBottomBar(
         HorizontalDivider(
             modifier = modifier
                 .fillMaxWidth().align(Alignment.TopCenter),
-            thickness = 1.dp,
-            color = Color.DarkGray
+            thickness = 0.7.dp,
+            color = Color.Black
         )
     }
 }
