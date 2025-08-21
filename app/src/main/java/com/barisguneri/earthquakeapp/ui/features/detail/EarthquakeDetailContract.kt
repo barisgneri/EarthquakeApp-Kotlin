@@ -1,7 +1,7 @@
 package com.barisguneri.earthquakeapp.ui.features.detail
 
 import androidx.paging.PagingData
-import com.barisguneri.earthquakeapp.common.ErrorType
+import com.barisguneri.earthquakeapp.core.common.ErrorType
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeDetail
 
 data class EarthquakeDetailScreenState(

@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.common
+package com.barisguneri.earthquakeapp.core.common
 
 /**
  * Karşılaşılabilecek farklı hata türlerini sınıflandırmak için kullanılır.
@@ -36,7 +36,7 @@ sealed class ErrorType {
      * Beklenmedik, tanımlanamayan diğer tüm hatalar için kullanılır.
      * @param throwable Orijinal hata nesnesi (loglama için).
      */
-    data class Unknown(val throwable: Throwable) : ErrorType()
+    data class Unknown(val apiCode: Int?, val message: String?) : ErrorType()
 }
 
 data class PagingException(val errorType: ErrorType) : Exception()

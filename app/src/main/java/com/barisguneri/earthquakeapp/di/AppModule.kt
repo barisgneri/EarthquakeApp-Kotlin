@@ -1,7 +1,7 @@
 package com.barisguneri.earthquakeapp.di
 
 import com.barisguneri.earthquakeapp.data.api.KandilliApiService
-import com.barisguneri.earthquakeapp.common.NetworkConstants.BASE_URL
+import com.barisguneri.earthquakeapp.core.common.NetworkConstants.BASE_URL
 import com.barisguneri.earthquakeapp.data.repository.EarthquakeRepositoryImpl
 import com.barisguneri.earthquakeapp.domain.repository.EarthquakeRepository
 import dagger.Module

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import androidx.savedstate.savedState
-import com.barisguneri.earthquakeapp.common.Resource
+import com.barisguneri.earthquakeapp.core.common.Resource
 import com.barisguneri.earthquakeapp.domain.useCase.GetEarthquakeDetailUseCase
 import com.barisguneri.earthquakeapp.ui.navigation.MainScreen
 import dagger.hilt.android.lifecycle.HiltViewModel

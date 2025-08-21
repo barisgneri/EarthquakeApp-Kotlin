@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.common
+package com.barisguneri.earthquakeapp.core.common
 
 object NetworkConstants {
     const val BASE_URL = "https://api.orhanaydogdu.com.tr/"

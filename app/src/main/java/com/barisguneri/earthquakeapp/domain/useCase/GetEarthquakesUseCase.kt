@@ -14,7 +14,7 @@ class GetEarthquakesUseCase @Inject constructor(
     operator fun invoke(minMagnitude: Double = 0.0): Flow<PagingData<EarthquakeInfo>> {
         // Sadece veriyi getirmekle kalmaz, aynı zamanda iş mantığı da uygulayabiliriz.
 
-        val rawPagingDataFlow = repository.getEarthquakes()
+        val rawPagingDataFlow = repository.getPagingEarthquakes()
 
         //iş mantığı: Sadece belirli bir büyüklükten yüksek depremleri filtrele
         if (minMagnitude > 0) {

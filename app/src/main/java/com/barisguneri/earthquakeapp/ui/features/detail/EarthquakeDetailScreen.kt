@@ -13,9 +13,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeDetail
 import com.barisguneri.earthquakeapp.core.presentation.ErrorView
 import com.barisguneri.earthquakeapp.core.presentation.LoadingView
-import com.barisguneri.earthquakeapp.core.presentation.MapView
-import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
-import org.osmdroid.util.GeoPoint
 
 @Composable
 fun EarthquakeDetailScreen(
@@ -57,25 +54,27 @@ fun EarthquakeDetailContent(
             }
 
             detailState.earthquake != null -> {
-                MapDetail(modifier = Modifier, detail = detailState.earthquake)
+                MapDetail(modifier = Modifier, detail = listOf(detailState.earthquake) )
             }
         }
     }
 }
 
 @Composable
-fun MapDetail(modifier: Modifier, detail: EarthquakeDetail) {
-    val list = listOf(detail)
-    MapView(modifier = modifier.fillMaxSize(), markersData = list.map { detail ->
+fun MapDetail(modifier: Modifier, detail: List<EarthquakeDetail>) {
+
+/*    MapView(modifier = modifier.fillMaxSize(), onButtonClick = {}, markersData = detail.map { detail ->
         MapMarkerData(
             position = GeoPoint(
                 detail.location.lat,
                 detail.location.long
             ),
             title = detail.title,
-            subDescription = "İl: ${detail.title}}\nBüyüklük: ${detail.magnitude}",
-            magnitude = detail.magnitude
+            magnitude = detail.magnitude,
+            depth = detail.depthInfo,
+            dateTime = detail.dateTime,
+            earthquakeId = detail.id
         )
     }
-    )
+    )*/
 }
