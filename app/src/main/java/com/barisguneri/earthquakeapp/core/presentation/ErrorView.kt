@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.barisguneri.earthquakeapp.common.ErrorType
+import com.barisguneri.earthquakeapp.core.common.ErrorType
 
 @Composable
 fun ErrorView(

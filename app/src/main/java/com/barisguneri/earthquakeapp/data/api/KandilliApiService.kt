@@ -1,7 +1,7 @@
 package com.barisguneri.earthquakeapp.data.api
 
-import com.barisguneri.earthquakeapp.common.NetworkConstants.EARTHQUAKE_DETAIL_ENDPOINT
-import com.barisguneri.earthquakeapp.common.NetworkConstants.LIVE_EARTHQUAKE_ENDPOINT
+import com.barisguneri.earthquakeapp.core.common.NetworkConstants.EARTHQUAKE_DETAIL_ENDPOINT
+import com.barisguneri.earthquakeapp.core.common.NetworkConstants.LIVE_EARTHQUAKE_ENDPOINT
 import com.barisguneri.earthquakeapp.data.api.model.EarthquakeDTO
 import com.barisguneri.earthquakeapp.data.api.model.EarthquakeDetailDTO
 import retrofit2.Response

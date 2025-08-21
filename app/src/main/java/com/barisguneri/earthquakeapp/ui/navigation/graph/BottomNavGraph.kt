@@ -12,13 +12,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListScreen
 import com.barisguneri.earthquakeapp.ui.features.map.MapScreen
+import com.barisguneri.earthquakeapp.ui.features.map.navigaiton.MapNavActions
+import com.barisguneri.earthquakeapp.ui.features.map.navigaiton.mapScreen
 import com.barisguneri.earthquakeapp.ui.navigation.BottomScreen
 import com.barisguneri.earthquakeapp.ui.navigation.MainScreen
 import com.barisguneri.earthquakeapp.ui.navigation.bottom.EarthquakeBottomBar
 
 fun NavGraphBuilder.bottomNavGraph(
     navController: NavHostController,
-    startDestination: BottomScreen = BottomScreen.HomeList,
+    startDestination: BottomScreen = BottomScreen.Map,
 ) {
     composable<MainScreen.BottomNavGraph> {
         val bottomNavController = rememberNavController()
@@ -41,13 +43,15 @@ fun NavGraphBuilder.bottomNavGraph(
                         }
                     )
                 }
-                composable<BottomScreen.Map> {
-                    MapScreen(
-                        onNavigateToEarthquakeDetail = { id ->
-                            navController.navigate(route = MainScreen.Detail(id))
-                        }
+                mapScreen(
+                    MapNavActions(
+                        navigateToDetail = { id ->
+                            navController.navigate(route = MainScreen.Detail(id)){
+                            }
+                        },
+                        navigateToBack = { navController.popBackStack() },
                     )
-                }
+                )
             }
         }
     }

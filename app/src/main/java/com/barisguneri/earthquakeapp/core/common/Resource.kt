@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.common
+package com.barisguneri.earthquakeapp.core.common
 
 /**
  * Ağ isteklerinin durumunu yönetmek için genel bir sealed class.

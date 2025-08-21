@@ -30,11 +30,10 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.barisguneri.earthquakeapp.R
-import com.barisguneri.earthquakeapp.common.ErrorType
-import com.barisguneri.earthquakeapp.common.PagingException
+import com.barisguneri.earthquakeapp.core.common.ErrorType
+import com.barisguneri.earthquakeapp.core.common.PagingException
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 import com.barisguneri.earthquakeapp.core.presentation.ErrorView
-import com.barisguneri.earthquakeapp.core.presentation.MapView
 import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.component.EarthquakeItem
 import org.osmdroid.util.GeoPoint
@@ -83,7 +82,7 @@ private fun EarthquakeContent(
                 // PagingSource'ta fırlattığımız özel PagingException'ı burada yakalıyoruz.
                 val error = refreshState.error as? PagingException
                 ErrorView(
-                    errorType = error?.errorType ?: ErrorType.Unknown(refreshState.error),
+                    errorType = error?.errorType ?: ErrorType.Unknown(apiCode = error.hashCode(), message = refreshState.error.toString()),
                     onRetry = { onEvent(EarthquakeScreenEvent.Retry) },
                     modifier = Modifier.align(Alignment.Center)
                 )
@@ -153,18 +152,20 @@ fun TopMapContent(
         modifier = modifier.wrapContentSize(),
         shape = RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp)
     ) {
-        MapView(modifier = modifier.fillMaxSize(), markersData = earthquakeInfo.map { detail ->
+/*        MapView(modifier = modifier.fillMaxSize(), onButtonClick = {}, markersData = earthquakeInfo.map { detail ->
             MapMarkerData(
                 position = GeoPoint(
                     detail.location.lat,
                     detail.location.long
                 ),
                 title = detail.title,
-                subDescription = "İl: ${detail.title}}\nBüyüklük: ${detail.magnitude}",
+                depth = "${detail.magnitude}",
+                dateTime = detail.dateTime,
+                earthquakeId = detail.id,
                 magnitude = detail.magnitude
             )
         }
-        )
+        )*/
     }
 }
 

@@ -3,7 +3,7 @@ package com.barisguneri.earthquakeapp.ui.features.earthquakeList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.barisguneri.earthquakeapp.common.ErrorType
+import com.barisguneri.earthquakeapp.core.common.ErrorType
 import com.barisguneri.earthquakeapp.domain.useCase.GetEarthquakesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,7 +57,7 @@ class EarthquakeViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        error = ErrorType.Unknown(e) // Veya daha spesifik bir hata
+                        error = ErrorType.Unknown(apiCode = e.hashCode() , message = e.message) // Veya daha spesifik bir hata
                     )
                 }
             }

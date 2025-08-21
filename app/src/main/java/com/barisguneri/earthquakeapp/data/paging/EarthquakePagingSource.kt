@@ -2,9 +2,9 @@ package com.barisguneri.earthquakeapp.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.barisguneri.earthquakeapp.common.ErrorType
-import com.barisguneri.earthquakeapp.common.NetworkConstants.PAGE_SIZE
-import com.barisguneri.earthquakeapp.common.PagingException
+import com.barisguneri.earthquakeapp.core.common.ErrorType
+import com.barisguneri.earthquakeapp.core.common.NetworkConstants.PAGE_SIZE
+import com.barisguneri.earthquakeapp.core.common.PagingException
 import com.barisguneri.earthquakeapp.data.api.KandilliApiService
 import com.barisguneri.earthquakeapp.data.mapper.toDomain
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
@@ -50,7 +50,7 @@ class EarthquakePagingSource(private val apiService: KandilliApiService) : Pagin
             val errorType = when(e) {
                 is IOException -> ErrorType.NoInternetConnection
                 is HttpException -> ErrorType.HttpError(e.code(), e.message())
-                else -> ErrorType.Unknown(e)
+                else -> ErrorType.Unknown(e.hashCode(), e.localizedMessage)
             }
             LoadResult.Error(PagingException(errorType))
         }

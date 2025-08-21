@@ -5,4 +5,6 @@
     <string name="list">Liste</string>
     <string name="map">Harita</string>
     <string name="too_many_request">Çok fazla istek gönderdiniz daha sonra tekrar deneyin.</string>
+    <string name="view_detail">Detayı Görüntüle</string>
+    <string name="formated_sub_description"><b>Tarih: </b> %1s\n<b>Büyüklük: </b>%2s\n<b>Derinlik: </b>%3s\n</string>
 </resources>
