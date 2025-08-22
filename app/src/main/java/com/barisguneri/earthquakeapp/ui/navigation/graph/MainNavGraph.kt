@@ -5,6 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailContent
 import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailScreen
+import com.barisguneri.earthquakeapp.ui.features.detail.navigation.DetailNavActions
+import com.barisguneri.earthquakeapp.ui.features.detail.navigation.detailScreen
 import com.barisguneri.earthquakeapp.ui.features.splash.SplashScreen
 import com.barisguneri.earthquakeapp.ui.navigation.MainScreen
 
@@ -20,10 +22,9 @@ fun NavGraphBuilder.mainNavGraph(
             }
         }
     }
-    composable<MainScreen.Detail> {
-       EarthquakeDetailScreen(
-           earthquakeId = it.id,
-           onNavigateBack = { navController.popBackStack() },
-       )
-    }
+    detailScreen(
+        actions = DetailNavActions(
+            navigateToBack = { navController.popBackStack() }
+        )
+    )
 }

@@ -22,26 +22,38 @@ class MapViewModel @Inject constructor(private val getAllEarthquakesUseCase: Get
     MVI<UiState, UiEffect, UiAction>(UiState()) {
 
     init {
-        getAllEarthquakes()
+        onAction(UiAction.GetEarthquake)
     }
 
     override fun onAction(uiAction: UiAction) {
-
+        when (uiAction) {
+            is UiAction.GetEarthquake -> getAllEarthquakes()
+            is UiAction.Retry -> getAllEarthquakes()
+            is UiAction.OnEarthquakeClick -> {
+                emitUiEffect(
+                    effect = UiEffect.NavigateToDetail(
+                        uiAction.earthquakeId
+                    )
+                )
+            }
+        }
     }
 
     private fun getAllEarthquakes() {
         getAllEarthquakesUseCase().onEach { result ->
-            when(result){
+            when (result) {
                 is Resource.Success -> {
                     updateState {
                         copy(earthquake = result.data, isLoading = false)
                     }
                 }
+
                 is Resource.Error -> {
                     updateState {
                         copy(error = result.errorType, isLoading = false)
                     }
                 }
+
                 is Resource.Loading -> {
                     updateState {
                         copy(isLoading = true)

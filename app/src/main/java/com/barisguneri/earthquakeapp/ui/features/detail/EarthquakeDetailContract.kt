@@ -1,16 +1,22 @@
 package com.barisguneri.earthquakeapp.ui.features.detail
 
-import androidx.paging.PagingData
 import com.barisguneri.earthquakeapp.core.common.ErrorType
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeDetail
 
-data class EarthquakeDetailScreenState(
-    val isLoading: Boolean = false,
-    val earthquake: EarthquakeDetail? = null,
-    val error: ErrorType? = null
-)
+object EarthquakeDetailContract {
+    data class UiState(
+        val isLoading: Boolean = false,
+        val earthquake: EarthquakeDetail? = null,
+        val error: ErrorType? = null
+    )
 
-sealed interface EarthquakeDetailScreenEvent {
-    data object Retry : EarthquakeDetailScreenEvent
-    data class Load(val earthquakeId: String) : EarthquakeDetailScreenEvent
+    sealed class UiEffect {
+        data class ShowToast(val message: String) : UiEffect()
+    }
+
+    sealed interface UiAction{
+        data object Retry : UiAction
+        data class Load(val earthquakeId: String) : UiAction
+    }
+
 }

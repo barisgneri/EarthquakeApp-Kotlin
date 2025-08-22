@@ -1,60 +1,71 @@
 package com.barisguneri.earthquakeapp.ui.theme
 
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
-// DP Değerleri
-val Dp0 = 0.dp
-val Dp2 = 2.dp
-val Dp4 = 4.dp
-val Dp6 = 6.dp
-val Dp8 = 8.dp
-val Dp10 = 10.dp
-val Dp12 = 12.dp
-val Dp14 = 14.dp
-val Dp16 = 16.dp
-val Dp18 = 18.dp
-val Dp20 = 20.dp
-val Dp22 = 22.dp
-val Dp24 = 24.dp
-val Dp26 = 26.dp
-val Dp28 = 28.dp
-val Dp30 = 30.dp
-val Dp32 = 32.dp
-val Dp34 = 34.dp
-val Dp36 = 36.dp
-val Dp38 = 38.dp
-val Dp40 = 40.dp
-val Dp42 = 42.dp
-val Dp44 = 44.dp
-val Dp46 = 46.dp
-val Dp48 = 48.dp
-val Dp50 = 50.dp
+internal val LocalDimenSize = staticCompositionLocalOf<AppDimenSize> {
+    error("No default dimen size provided")
+}
 
-// SP Değerleri
-val Sp0 = 0.sp
-val Sp2 = 2.sp
-val Sp4 = 4.sp
-val Sp6 = 6.sp
-val Sp8 = 8.sp
-val Sp10 = 10.sp
-val Sp12 = 12.sp
-val Sp14 = 14.sp
-val Sp16 = 16.sp
-val Sp18 = 18.sp
-val Sp20 = 20.sp
-val Sp22 = 22.sp
-val Sp24 = 24.sp
-val Sp26 = 26.sp
-val Sp28 = 28.sp
-val Sp30 = 30.sp
-val Sp32 = 32.sp
-val Sp34 = 34.sp
-val Sp36 = 36.sp
-val Sp38 = 38.sp
-val Sp40 = 40.sp
-val Sp42 = 42.sp
-val Sp44 = 44.sp
-val Sp46 = 46.sp
-val Sp48 = 48.sp
-val Sp50 = 50.sp
+val Dimens = AppDimenSize(
+    dp0 = 0.dp,
+    dp1 = 1.dp,
+    dp2 = 2.dp,
+    dp4 = 4.dp,
+    dp6 = 6.dp,
+    dp8 = 8.dp,
+    dp10 = 10.dp,
+    dp12 = 12.dp,
+    dp14 = 14.dp,
+    dp16 = 16.dp,
+    dp18 = 18.dp,
+    dp20 = 20.dp,
+    dp22 = 22.dp,
+    dp24 = 24.dp,
+    dp26 = 26.dp,
+    dp28 = 28.dp,
+    dp30 = 30.dp,
+    dp32 = 32.dp,
+    dp34 = 34.dp,
+    dp36 = 36.dp,
+    dp38 = 38.dp,
+    dp40 = 40.dp,
+    dp42 = 42.dp,
+    dp44 = 44.dp,
+    dp46 = 46.dp,
+    dp48 = 48.dp,
+    dp50 = 50.dp
+)
+
+@Immutable
+data class AppDimenSize(
+    val dp0: Dp,
+    val dp1: Dp,
+    val dp2: Dp,
+    val dp4: Dp,
+    val dp6: Dp,
+    val dp8: Dp,
+    val dp10: Dp,
+    val dp12: Dp,
+    val dp14: Dp,
+    val dp16: Dp,
+    val dp18: Dp,
+    val dp20: Dp,
+    val dp22: Dp,
+    val dp24: Dp,
+    val dp26: Dp,
+    val dp28: Dp,
+    val dp30: Dp,
+    val dp32: Dp,
+    val dp34: Dp,
+    val dp36: Dp,
+    val dp38: Dp,
+    val dp40: Dp,
+    val dp42: Dp,
+    val dp44: Dp,
+    val dp46: Dp,
+    val dp48: Dp,
+    val dp50: Dp
+)

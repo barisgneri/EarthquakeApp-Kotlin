@@ -1,61 +1,72 @@
 package com.barisguneri.earthquakeapp.ui.theme
 
 import android.app.Activity
-import android.os.Build
+import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.luminance
+import com.barisguneri.earthquakeapp.core.presentation.SystemBarsScrim
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+object AppTheme {
+    val colors: AppColor
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalColors.current
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
-)
+    val padding: AppPadding
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalPadding.current
+
+    val fontSize: AppFontSize
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalFontSize.current
+
+    val typography: AppTypography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalTypography.current
+
+    val icons: AppIcons
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalIcons.current
+
+    val dimens: AppDimenSize
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalDimenSize.current
+}
+
+val LocalActivity = staticCompositionLocalOf<Activity?> { null }
 
 @Composable
-fun EarthquakeAppTheme(
+fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    systemBarsColorOverride: Color? = null,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            dynamicLightColorScheme(context)
-        }
+    val colors = if (darkTheme) darkColors() else lightColors()
+    val barColor = systemBarsColorOverride ?: colors.background
+    val lightIcons = barColor.luminance() > .5f
 
-        else -> LightColorScheme
-    }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            val window = (view.context as Activity).window
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
-        }
-    }
-
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
+    SystemBarsScrim(
+        barColor = barColor,
+        lightBarIcons = lightIcons,
+        lightNavIcons = lightIcons
     )
+    CompositionLocalProvider(
+        LocalColors provides colors,
+        LocalPadding provides Padding,
+        LocalFontSize provides FontSize,
+        LocalTypography provides Typography,
+        LocalIcons provides AppIcons(),
+        LocalDimenSize provides Dimens
+    ) {
+        content()
+    }
 }

@@ -1,47 +1,40 @@
 package com.barisguneri.earthquakeapp.ui.features.detail
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import androidx.savedstate.savedState
 import com.barisguneri.earthquakeapp.core.common.Resource
+import com.barisguneri.earthquakeapp.core.domain.delegate.MVI
 import com.barisguneri.earthquakeapp.domain.useCase.GetEarthquakeDetailUseCase
 import com.barisguneri.earthquakeapp.ui.navigation.MainScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
+import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailContract.UiState
+import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailContract.UiEffect
+import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailContract.UiAction
 
 @HiltViewModel
 class EarthquakeDetailViewModel @Inject constructor(
     private val getEarthquakeDetailUseCase: GetEarthquakeDetailUseCase,
     savedStateHandle: SavedStateHandle
-) : ViewModel() {
-
-    private val _uiState = MutableStateFlow(EarthquakeDetailScreenState())
-    val uiState = _uiState.asStateFlow()
+) : MVI<UiState, UiEffect, UiAction>(UiState()) {
 
     private val args = savedStateHandle.toRoute<MainScreen.Detail>()
-    private var currentEarthquakeId: String = args.itemId
 
     init {
-        onEvent(EarthquakeDetailScreenEvent.Load(currentEarthquakeId))
+        loadDetail(args.itemId)
     }
 
-
-    fun onEvent(event: EarthquakeDetailScreenEvent) {
-        when (event) {
-            is EarthquakeDetailScreenEvent.Load -> {
-                this.currentEarthquakeId = event.earthquakeId
-                loadDetail(event.earthquakeId)
+    override fun onAction(uiAction: UiAction) {
+        when (uiAction) {
+            is UiAction.Retry -> {
+                loadDetail(args.itemId)
             }
-            is EarthquakeDetailScreenEvent.Retry -> {
-                currentEarthquakeId?.let { id ->
-                    loadDetail(id)
-                }
+
+            is UiAction.Load -> {
+                loadDetail(uiAction.earthquakeId)
             }
         }
     }
@@ -50,13 +43,22 @@ class EarthquakeDetailViewModel @Inject constructor(
         getEarthquakeDetailUseCase(id).onEach { resource ->
             when (resource) {
                 is Resource.Loading -> {
-                    _uiState.value = EarthquakeDetailScreenState(isLoading = true)
+                    updateState {
+                        copy(isLoading = true)
+                    }
                 }
+
                 is Resource.Success -> {
-                    _uiState.value = EarthquakeDetailScreenState(earthquake = resource.data)
+                    updateState {
+                        copy(isLoading = false, earthquake = resource.data)
+                    }
                 }
+
                 is Resource.Error -> {
-                    _uiState.value = EarthquakeDetailScreenState(error = resource.errorType)
+                    updateState {
+                        copy(isLoading = true, error = resource.errorType)
+                    }
+                    emitUiEffect(UiEffect.ShowToast("Hata Oluştu"))
                 }
             }
         }.launchIn(viewModelScope)
