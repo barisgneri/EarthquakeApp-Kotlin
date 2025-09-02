@@ -77,7 +77,7 @@ fun CollapsedDetailItem(
                 )
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowDown,
-                    contentDescription = "Genişlet/Daralt",
+                    contentDescription = "Genişlet/Daral",
                     modifier = Modifier
                         .rotate(rotationAngle)
                         .size(size = dimens.dp14),
