@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:background="@drawable/radius_light_gray_background"
-    android:padding="8dp"
-    android:gravity="center"
+    android:padding="12dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -11,23 +10,33 @@
         android:id="@+id/title"
         android:textStyle="bold"
         android:textAlignment="center"
+        android:text="Barış"
+        android:textSize="18sp"
         android:fontFamily="@font/poppins_semibold"
-        android:textColor="@android:color/black"
+        android:textColor="@color/text_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/subdescription"
         android:fontFamily="@font/poppins"
-        android:textColor="@android:color/black"
+        android:text="Barış"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/subtext_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/popup_button_bg"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:paddingHorizontal="8dp"
         android:text="@string/view_detail"
-        android:fontFamily="@font/poppins_semibold"
         android:id="@+id/detail_button" />
 
 </LinearLayout>
