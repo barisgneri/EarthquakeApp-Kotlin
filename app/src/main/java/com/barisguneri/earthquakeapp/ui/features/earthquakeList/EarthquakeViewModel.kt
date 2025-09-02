@@ -1,63 +1,55 @@
 package com.barisguneri.earthquakeapp.ui.features.earthquakeList
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.barisguneri.earthquakeapp.core.common.ErrorType
+import com.barisguneri.earthquakeapp.core.domain.delegate.MVI
 import com.barisguneri.earthquakeapp.domain.useCase.GetEarthquakesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListContract.UiState
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListContract.UiAction
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListContract.UiEffect
+
 
 @HiltViewModel
 class EarthquakeViewModel @Inject constructor(
     private val getEarthquakesUseCase: GetEarthquakesUseCase
-) : ViewModel() {
+) : MVI<UiState, UiEffect, UiAction>(UiState()) {
 
-    private val _uiState = MutableStateFlow(EarthquakeScreenState(isLoading = true))
-    val uiState = _uiState.asStateFlow()
+
 
     init {
-        onEvent(EarthquakeScreenEvent.LoadEarthquakes)
+        onAction(UiAction.LoadEarthquakes)
     }
 
-    fun onEvent(event: EarthquakeScreenEvent) {
-        when (event) {
-            is EarthquakeScreenEvent.LoadEarthquakes -> {
-                loadEarthquakes()
-            }
-            is EarthquakeScreenEvent.Retry -> {
-                loadEarthquakes()
-            }
+    override fun onAction(uiAction: UiAction) {
+        super.onAction(uiAction)
+        when (uiAction) {
+            is UiAction.LoadEarthquakes -> loadEarthquakes()
+            is UiAction.Retry -> loadEarthquakes()
+            is UiAction.OnEarthquakeClick -> emitUiEffect(
+                effect = UiEffect.NavigateToDetail(
+                    uiAction.earthquakeId
+                )
+            )
         }
     }
 
     private fun loadEarthquakes() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
+            updateState { copy(isLoading = true, error = null) }
             try {
                 val earthquakesFlow = getEarthquakesUseCase()
                     .cachedIn(viewModelScope)
 
-                // 2. Başarılı bir şekilde PagingData akışını oluşturduysak,
-                // EKRAN SEVİYESİNDEKİ yüklemeyi bitir ve akışı state'e ata.
-                // Bu andan sonra PagingData'nın kendi loadState'i devreye girer.
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        pagingDataFlow = earthquakesFlow
-                    )
-                }
+                updateState { copy(isLoading = false, pagingDataFlow = earthquakesFlow) }
             } catch (e: Exception) {
-                // 3. Eğer UseCase veya PagingData akışını oluşturma sırasında
-                // beklenmedik bir hata olursa, bunu EKRAN SEVİYESİNDE bir hata olarak yakala.
-                _uiState.update {
-                    it.copy(
+                updateState {
+                    copy(
                         isLoading = false,
-                        error = ErrorType.Unknown(apiCode = e.hashCode() , message = e.message) // Veya daha spesifik bir hata
+                        error = ErrorType.Unknown(apiCode = e.hashCode(), message = e.message)
                     )
                 }
             }

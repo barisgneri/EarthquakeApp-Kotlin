@@ -14,7 +14,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -24,70 +23,80 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.barisguneri.earthquakeapp.R
+import com.barisguneri.earthquakeapp.core.common.CollectWithLifecycle
 import com.barisguneri.earthquakeapp.core.common.ErrorType
 import com.barisguneri.earthquakeapp.core.common.PagingException
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 import com.barisguneri.earthquakeapp.core.presentation.ErrorView
+import com.barisguneri.earthquakeapp.core.presentation.LoadingView
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.component.EarthquakeItem
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListContract.UiState
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListContract.UiEffect
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListContract.UiAction
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.navigation.ListNavActions
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun EarthquakeListScreen(
-    onNavigateToEarthquakeDetail: (earthquakeId: String) -> Unit,
-    viewModel: EarthquakeViewModel = hiltViewModel()
+    uiState: UiState,
+    uiEffect: Flow<UiEffect>,
+    onAction: (UiAction) -> Unit,
+    navActions: ListNavActions
+
 ) {
-    // ViewModel'deki StateFlow'u, lifecycle'a duyarlı bir şekilde dinliyoruz.
-    // `collectAsStateWithLifecycle`, ekran arka plana gittiğinde gereksiz yere
-    // veri toplamayı durdurur. Bu, pil ömrü ve performans için kritiktir.
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    // State içindeki PagingData Flow'unu, LazyColumn'un anlayacağı
-    // LazyPagingItems nesnesine dönüştürüyoruz. Asıl veri yükleme işini bu tetikler.
-    val pagingItems = state.pagingDataFlow.collectAsLazyPagingItems()
+    uiEffect.CollectWithLifecycle { effect ->
+        when (effect) {
+            is UiEffect.ShowToast -> {}
+            is UiEffect.NavigateToDetail -> navActions.navigateToDetail(effect.earthquakeId)
+        }
+    }
 
-    EarthquakeContent(
-        pagingItems = pagingItems,
-        onEvent = viewModel::onEvent,
-        onEarthquakeClick = onNavigateToEarthquakeDetail
-    )
+    when{
+        uiState.isLoading -> LoadingView()
+        uiState.error != null -> ErrorView(errorType = uiState.error, onRetry = { onAction(UiAction.Retry) })
+        else -> {
+            val pagingItems = uiState.pagingDataFlow.collectAsLazyPagingItems()
+            EarthquakeContent(
+                pagingItems = pagingItems,
+                onAction = onAction,
+            )
+        }
+    }
+
+
+
 }
 
 @Composable
 private fun EarthquakeContent(
     pagingItems: LazyPagingItems<EarthquakeInfo>,
-    onEvent: (EarthquakeScreenEvent) -> Unit,
-    onEarthquakeClick: (earthquakeId: String) -> Unit
+    onAction: (UiAction) -> Unit
 ) {
     val allEarthquakes = remember { mutableStateListOf<EarthquakeInfo>() }
     Box(modifier = Modifier.fillMaxSize()) {
-        //TopMapContent(earthquakeInfo = allEarthquakes)
-        // `loadState.refresh`, listenin ilk kez yüklendiği veya elle yenilendiği durumu temsil eder.
-        // Bu, bizim `State` sınıfımızdaki `isLoading`/`error`'dan daha spesifiktir,
-        // çünkü doğrudan Paging verisiyle ilgilidir.
+        // loadState.refresh, listenin ilk kez yüklendiği veya elle yenilendiği durumu temsil eder.
         when (val refreshState = pagingItems.loadState.refresh) {
             is LoadState.Loading -> {
-                // İlk Yükleme Durumu
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
-
             is LoadState.Error -> {
-                // İlk Yükleme Hatası Durumu
-                // PagingSource'ta fırlattığımız özel PagingException'ı burada yakalıyoruz.
                 val error = refreshState.error as? PagingException
                 ErrorView(
-                    errorType = error?.errorType ?: ErrorType.Unknown(apiCode = error.hashCode(), message = refreshState.error.toString()),
-                    onRetry = { onEvent(EarthquakeScreenEvent.Retry) },
+                    errorType = error?.errorType ?: ErrorType.Unknown(
+                        apiCode = error.hashCode(),
+                        message = refreshState.error.toString()
+                    ),
+                    onRetry = { onAction(UiAction.Retry) },
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
 
             else ->
-                // Yükleme başarılı oldu veya henüz başlamadı. Listeyi göster.
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -101,7 +110,7 @@ private fun EarthquakeContent(
                         val earthquake = pagingItems[index]
                         earthquake?.let {
                             allEarthquakes.add(it)
-                            EarthquakeItem(earthquake = it, onClick = { onEarthquakeClick(it.id) })
+                            EarthquakeItem(earthquake = it, onClick = { onAction(UiAction.OnEarthquakeClick(it.id)) })
                         }
                     }
 
@@ -138,41 +147,5 @@ private fun EarthquakeContent(
                     }
                 }
         }
-    }
-}
-
-@Composable
-fun TopMapContent(
-    modifier: Modifier = Modifier,
-    earthquakeInfo: SnapshotStateList<EarthquakeInfo>
-) {
-    Card(
-        modifier = modifier.wrapContentSize(),
-        shape = RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp)
-    ) {
-/*        MapView(modifier = modifier.fillMaxSize(), onButtonClick = {}, markersData = earthquakeInfo.map { detail ->
-            MapMarkerData(
-                position = GeoPoint(
-                    detail.location.lat,
-                    detail.location.long
-                ),
-                title = detail.title,
-                depth = "${detail.magnitude}",
-                dateTime = detail.dateTime,
-                earthquakeId = detail.id,
-                magnitude = detail.magnitude
-            )
-        }
-        )*/
-    }
-}
-
-private fun magColor(mag: Double): Color {
-    return if (mag > 4 && mag < 5.0) {
-        Color.Yellow
-    } else if (mag > 5.0) {
-        Color.Red
-    } else {
-        Color.Black
     }
 }

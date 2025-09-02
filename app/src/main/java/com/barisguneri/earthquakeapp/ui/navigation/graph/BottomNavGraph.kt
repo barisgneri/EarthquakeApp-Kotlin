@@ -11,6 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListScreen
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.navigation.ListNavActions
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.navigation.listScreen
 import com.barisguneri.earthquakeapp.ui.features.map.MapScreen
 import com.barisguneri.earthquakeapp.ui.features.map.navigaiton.MapNavActions
 import com.barisguneri.earthquakeapp.ui.features.map.navigaiton.mapScreen
@@ -36,17 +38,17 @@ fun NavGraphBuilder.bottomNavGraph(
                     .padding(innerPadding)
                     .imePadding()
             ) {
-                composable<BottomScreen.HomeList> {
-                    EarthquakeListScreen(
-                        onNavigateToEarthquakeDetail = { id ->
-                            navController.navigate(route = MainScreen.Detail(id))
+                listScreen(
+                    ListNavActions(
+                        navigateToDetail = { id ->
+                            navController.navigate(route = MainScreen.Detail(id)){}
                         }
                     )
-                }
+                )
                 mapScreen(
                     MapNavActions(
                         navigateToDetail = { id ->
-                            navController.navigate(route = MainScreen.Detail(id)){
+                            navController.navigate(route = MainScreen.Detail(id)) {
                             }
                         },
                         navigateToBack = { navController.popBackStack() },
