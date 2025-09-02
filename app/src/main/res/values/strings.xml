@@ -15,4 +15,6 @@
     <string name="population">"Nüfus: "</string>
     <string name="city">"Şehir: "</string>
     <string name="dateTime"><![CDATA[Tarih & Saat:]]></string>
+    <string name="closestAirport">Yakındaki Havalimanları</string>
+    <string name="closestCities">Yakındaki Şehirler</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.ui.features.detail
+package com.barisguneri.earthquakeapp.ui.features.detail.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -11,9 +11,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
-import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailContract.UiState
-import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailContract.UiEffect
-import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailContract.UiAction
+import com.barisguneri.earthquakeapp.ui.features.detail.viewmodel.EarthquakeDetailContract.UiState
+import com.barisguneri.earthquakeapp.ui.features.detail.viewmodel.EarthquakeDetailContract.UiEffect
+import com.barisguneri.earthquakeapp.ui.features.detail.viewmodel.EarthquakeDetailContract.UiAction
 
 @HiltViewModel
 class EarthquakeDetailViewModel @Inject constructor(
@@ -24,7 +24,7 @@ class EarthquakeDetailViewModel @Inject constructor(
     private val args = savedStateHandle.toRoute<MainScreen.Detail>()
 
     init {
-        loadDetail(args.itemId)
+        onAction(UiAction.Load(args.itemId))
     }
 
     override fun onAction(uiAction: UiAction) {
@@ -36,6 +36,8 @@ class EarthquakeDetailViewModel @Inject constructor(
             is UiAction.Load -> {
                 loadDetail(uiAction.earthquakeId)
             }
+
+            is UiAction.NavigateBack -> emitUiEffect(UiEffect.NavigateBack)
         }
     }
 

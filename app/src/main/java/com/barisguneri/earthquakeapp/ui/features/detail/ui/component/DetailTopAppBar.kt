@@ -1,5 +1,6 @@
-package com.barisguneri.earthquakeapp.ui.features.detail.component
+package com.barisguneri.earthquakeapp.ui.features.detail.ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -22,9 +23,9 @@ import com.barisguneri.earthquakeapp.ui.theme.AppTheme.typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailTopAppBar(onBackClick: () -> Unit, scrollBehavior: TopAppBarScrollBehavior) {
+fun DetailTopAppBar(onBackClick: () -> Unit) {
     TopAppBar(
-        scrollBehavior = scrollBehavior,
+        modifier = Modifier.background(colors.background),
         title = {
             Text(
                 text = stringResource(R.string.earthquake_detail),

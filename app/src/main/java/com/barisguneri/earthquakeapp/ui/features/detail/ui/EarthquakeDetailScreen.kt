@@ -1,8 +1,7 @@
-package com.barisguneri.earthquakeapp.ui.features.detail
+package com.barisguneri.earthquakeapp.ui.features.detail.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,29 +13,30 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.barisguneri.earthquakeapp.R
 import com.barisguneri.earthquakeapp.core.common.CollectWithLifecycle
 import com.barisguneri.earthquakeapp.core.presentation.ErrorView
 import com.barisguneri.earthquakeapp.core.presentation.LoadingView
 import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
-import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailContract.UiState
-import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailContract.UiEffect
-import com.barisguneri.earthquakeapp.ui.features.detail.EarthquakeDetailContract.UiAction
-import com.barisguneri.earthquakeapp.ui.features.detail.component.DetailMap
-import com.barisguneri.earthquakeapp.ui.features.detail.component.DetailTopAppBar
+import com.barisguneri.earthquakeapp.ui.features.detail.viewmodel.EarthquakeDetailContract.UiState
+import com.barisguneri.earthquakeapp.ui.features.detail.viewmodel.EarthquakeDetailContract.UiEffect
+import com.barisguneri.earthquakeapp.ui.features.detail.viewmodel.EarthquakeDetailContract.UiAction
+import com.barisguneri.earthquakeapp.ui.features.detail.ui.component.DetailMap
+import com.barisguneri.earthquakeapp.ui.features.detail.ui.component.DetailTopAppBar
 import com.barisguneri.earthquakeapp.ui.features.detail.navigation.DetailNavActions
+import com.barisguneri.earthquakeapp.ui.features.detail.ui.component.ClosestAirportContent
+import com.barisguneri.earthquakeapp.ui.features.detail.ui.component.ClosestCitiesContent
 import com.barisguneri.earthquakeapp.ui.features.map.component.HeaderDetailContent
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.colors
+import com.barisguneri.earthquakeapp.ui.theme.AppTheme.dimens
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.padding
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.typography
 import kotlinx.coroutines.flow.Flow
@@ -53,9 +53,8 @@ fun EarthquakeDetailScreen(
 
     uiEffect.CollectWithLifecycle { effect ->
         when (effect) {
-            is UiEffect.ShowToast -> {
-
-            }
+            is UiEffect.ShowToast -> {}
+            is UiEffect.NavigateBack -> navActions.navigateToBack()
         }
     }
 
@@ -70,7 +69,7 @@ fun EarthquakeDetailScreen(
         else -> {
             EarthquakeDetailContent(
                 uiState = uiState,
-                navActions = navActions
+                uiAction = uiAction
             )
         }
     }
@@ -80,33 +79,31 @@ fun EarthquakeDetailScreen(
 @Composable
 fun EarthquakeDetailContent(
     uiState: UiState,
-    navActions: DetailNavActions
+    uiAction: (UiAction) -> Unit,
 ) {
     val scrollState = rememberScrollState()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
     Scaffold(
         modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection)
+            .background(colors.background)
             .fillMaxSize(),
         topBar = {
             DetailTopAppBar(
-                scrollBehavior = scrollBehavior,
-                onBackClick = { navActions.navigateToBack() }
+                onBackClick = { uiAction(UiAction.NavigateBack) }
             )
         },
         containerColor = Color.Transparent
     ) { innerPadding ->
-        println(innerPadding)
         uiState.earthquake?.let { earthquake ->
         Column(
             modifier = Modifier
+                .padding(innerPadding)
                 .verticalScroll(scrollState)
                 .fillMaxSize()
-                .background(colors.background)
+
+
         ) {
                 DetailMap(
-                    modifier = Modifier.height(300.dp),
+                    modifier = Modifier.height(260.dp),
                     markersData = MapMarkerData(
                         position = GeoPoint(
                             earthquake.location.lat,
@@ -121,17 +118,16 @@ fun EarthquakeDetailContent(
                 )
 
                 Text(
-                    modifier = Modifier.fillMaxWidth()  .fillMaxWidth()
-                        .background(colors.onBackground)
-                        .padding(16.dp),
+                    modifier = Modifier.fillMaxWidth().padding(16.dp),
                     text = earthquake.title,
-                    color = colors.onText,
-                    style = typography.headMediumSemiBold(),
+                    color = colors.text,
+                    style = typography.bodyLargeBold(),
                     textAlign = TextAlign.Center
                 )
 
                 HeaderDetailContent(modifier = Modifier.background(colors.background), earthquake = earthquake)
-
+                ClosestAirportContent(airports = earthquake.airports)
+                ClosestCitiesContent(closestCities = earthquake.closestCities)
             }
         }
     }
