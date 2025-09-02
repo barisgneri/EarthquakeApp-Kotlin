@@ -48,7 +48,7 @@ fun MapScreenAppBar(
                 .matchParentSize()
                 .clip(RoundedCornerShape(dimens.dp12))
                 .blur(radius = 10.dp),
-            color = Color.White.copy(alpha = 0.8f),
+            color = colors.background.copy(alpha = 0.6f),
         ) {}
 
         Row(
@@ -63,21 +63,21 @@ fun MapScreenAppBar(
                 fontSize = fontSize.body,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = poppinsFontFamily,
-                color = colors.onText
+                color = colors.text
             )
             Row {
                 IconButton(onClick = onSearchClick) {
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = "Search",
-                        tint = colors.onText,
+                        tint = colors.text,
                     )
                 }
                 IconButton(onClick = onFilterClick) {
                     Icon(
                         imageVector = Icons.Default.Menu,
                         contentDescription = "Filter",
-                        tint = colors.onText
+                        tint = colors.text
                     )
                 }
             }
