@@ -33,3 +33,13 @@ fun magIcon(context: Context, mag: Double) : Drawable? {
         context.getDrawable(R.drawable.marker_icon_big_earthquake)
     }
 }
+
+fun Double.toKmFormattedString(): String {
+    val km = this / 1000.0
+    val formated = String.format("%.2f", km)
+    return formated + "km"
+}
+
+fun Int.toReadableString(): String {
+    return "%,d".format(this).replace(',', '.')
+}

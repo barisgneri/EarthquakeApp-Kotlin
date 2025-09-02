@@ -11,7 +11,7 @@ interface MVIDelegate<UiState, UiEffect, UiAction> {
         get() = uiState.value
 
     fun updateState(block: UiState.() -> UiState)
-    suspend fun emitUiEffect(effect: UiEffect)
+    fun emitUiEffect(effect: UiEffect)
 
     fun onAction(uiAction: UiAction)
 }

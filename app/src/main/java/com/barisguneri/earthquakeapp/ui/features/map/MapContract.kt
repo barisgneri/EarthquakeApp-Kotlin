@@ -13,10 +13,12 @@ object MapContract{
     sealed interface UiAction{
         data object Retry : UiAction
         data object GetEarthquake : UiAction
+        data class OnEarthquakeClick(val earthquakeId: String) : UiAction
     }
 
     sealed class UiEffect {
         data class ShowToast(val message: String) : UiEffect()
+        data class NavigateToDetail(val earthquakeId: String) : UiEffect()
     }
 }
 

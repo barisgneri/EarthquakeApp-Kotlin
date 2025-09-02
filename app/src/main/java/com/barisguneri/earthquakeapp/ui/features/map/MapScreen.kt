@@ -38,11 +38,10 @@ import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
 import com.barisguneri.earthquakeapp.ui.features.map.component.MapScreenAppBar
 import com.barisguneri.earthquakeapp.ui.features.map.component.MapView
 import com.barisguneri.earthquakeapp.ui.features.map.navigaiton.MapNavActions
-import com.barisguneri.earthquakeapp.ui.theme.EarthquakeAppTheme
+import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import org.osmdroid.util.GeoPoint
-// import org.osmdroid.views.MapView // Bu import MapView composable'ı ile karışabilir, gerekmiyorsa kaldırılabilir.
 
 @Composable
 fun MapScreen(
@@ -55,6 +54,7 @@ fun MapScreen(
     uiEffect.CollectWithLifecycle { effect ->
         when (effect) {
             is MapContract.UiEffect.ShowToast -> {}//Todo: Toast
+            is MapContract.UiEffect.NavigateToDetail -> navActions.navigateToDetail(effect.earthquakeId)
         }
     }
 
@@ -64,7 +64,6 @@ fun MapScreen(
             MapContent(
                 uiState = uiState,
                 onAction = onAction,
-                navActions = navActions
             )
         }
     }
@@ -75,7 +74,6 @@ fun MapScreen(
 fun MapContent(
     uiState: MapContract.UiState,
     onAction: (MapContract.UiAction) -> Unit,
-    navActions: MapNavActions
 ) {
 
     Scaffold(topBar = { MapScreenAppBar() }) { paddingValues ->
@@ -88,14 +86,14 @@ fun MapContent(
             uiState.earthquake?.let { earthquakeList ->
                 MapViewContent(
                     earthquakeList = earthquakeList,
-                    navActions = navActions
+                    onAction = onAction
                 )
                 IconButton(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(top = 8.dp, end = 8.dp)
                         .size(50.dp)
-                        .zIndex(1f), // Haritanın üzerinde kalması için
+                        .zIndex(1f),
                     content = {
                         Icon(
                             painter = painterResource(R.drawable.gps_icon48),
@@ -112,7 +110,7 @@ fun MapContent(
 @Composable
 private fun MapViewContent(
     earthquakeList: List<EarthquakeInfo>,
-    navActions: MapNavActions
+    onAction: (MapContract.UiAction) -> Unit,
 ) {
     MapView(
         modifier = Modifier,
@@ -130,7 +128,7 @@ private fun MapViewContent(
             )
         },
         onButtonClick = { earthquakeId ->
-            navActions.navigateToDetail(earthquakeId)
+            onAction(MapContract.UiAction.OnEarthquakeClick(earthquakeId))
         }
     )
 }
@@ -138,7 +136,7 @@ private fun MapViewContent(
 @Preview(showBackground = true)
 @Composable
 fun MapScreenPreview(@PreviewParameter(MapScreenPreviewProvider::class) uiState: MapContract.UiState) {
-    EarthquakeAppTheme {
+    AppTheme {
         MapScreen(
             uiState = uiState,
             uiEffect = emptyFlow(),

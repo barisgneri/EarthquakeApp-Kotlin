@@ -30,7 +30,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.barisguneri.earthquakeapp.ui.theme.EarthquakeAppTheme
+import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 
 @Composable
 fun EarthquakeBottomBar(
@@ -85,7 +85,7 @@ fun EarthquakeBottomBar(
 @Preview(showBackground = true)
 @Composable
 fun BottomBarPreview() {
-    EarthquakeAppTheme {
+    AppTheme {
         EarthquakeBottomBar(navController = rememberNavController())
     }
 }

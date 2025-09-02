@@ -7,4 +7,14 @@
     <string name="too_many_request">Çok fazla istek gönderdiniz daha sonra tekrar deneyin.</string>
     <string name="view_detail">Detayı Görüntüle</string>
     <string name="formated_sub_description"><b>Tarih: </b> %1s\n<b>Büyüklük: </b>%2s\n<b>Derinlik: </b>%3s\n</string>
+    <string name="earthquake_detail">Deprem Detayı</string>
+    <string name="date">"Tarih: "</string>
+    <string name="magnitude">"Büyüklük: "</string>
+    <string name="depth">"Derinlik: "</string>
+    <string name="cityCode">"Plaka: "</string>
+    <string name="population">"Nüfus: "</string>
+    <string name="city">"Şehir: "</string>
+    <string name="dateTime"><![CDATA[Tarih & Saat:]]></string>
+    <string name="closestAirport">Yakındaki Havalimanları</string>
+    <string name="closestCities">Yakındaki Şehirler</string>
 </resources>

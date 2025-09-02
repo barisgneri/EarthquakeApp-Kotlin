@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import com.barisguneri.earthquakeapp.ui.navigation.graph.RootNavGraph
-import com.barisguneri.earthquakeapp.ui.theme.EarthquakeAppTheme
+import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import org.osmdroid.config.Configuration
 import org.osmdroid.library.BuildConfig
@@ -20,9 +20,8 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            EarthquakeAppTheme {
+            AppTheme {
                 val navController = rememberNavController()
-
                 RootNavGraph(navController = navController)
             }
         }

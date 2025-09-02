@@ -70,6 +70,7 @@ dependencies {
     implementation("androidx.activity:activity-compose")
     implementation("androidx.activity:activity:1.10.1")
     implementation("androidx.navigation:navigation-compose:2.9.2")
+    implementation("androidx.compose.animation:animation")
 
     implementation("androidx.core:core-ktx:1.16.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx")

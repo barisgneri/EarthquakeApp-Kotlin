@@ -34,9 +34,7 @@ import com.barisguneri.earthquakeapp.core.common.ErrorType
 import com.barisguneri.earthquakeapp.core.common.PagingException
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 import com.barisguneri.earthquakeapp.core.presentation.ErrorView
-import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.component.EarthquakeItem
-import org.osmdroid.util.GeoPoint
 
 @Composable
 fun EarthquakeListScreen(

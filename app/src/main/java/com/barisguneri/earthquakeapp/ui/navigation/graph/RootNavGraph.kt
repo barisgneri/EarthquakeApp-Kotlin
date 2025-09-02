@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.barisguneri.earthquakeapp.ui.navigation.BottomScreen
 import com.barisguneri.earthquakeapp.ui.navigation.MainScreen
 
 @Composable
@@ -14,7 +15,7 @@ fun RootNavGraph(
     NavHost(
         modifier = Modifier.then(modifier),
         navController = navController,
-        startDestination = MainScreen.Splash,
+        startDestination = MainScreen.BottomNavGraph,
     ) {
         mainNavGraph(navController = navController)
         bottomNavGraph(navController = navController)
