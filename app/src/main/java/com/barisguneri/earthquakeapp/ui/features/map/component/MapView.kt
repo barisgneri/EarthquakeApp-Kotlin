@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import com.barisguneri.earthquakeapp.R
 import com.barisguneri.earthquakeapp.core.common.Constants
@@ -41,14 +42,13 @@ fun MapView(
 
                     val subDescriptionFormated = String.format(
                         context.getString(R.string.formated_sub_description),
-                        data.dateTime,
-                        data.magnitude.toString(),
-                        data.depth
+                        data.title,
+                        data.dateTime
                     )
 
                     view.controller.setCenter(GeoPoint(defaultCenterLat, defaultCenterLong))
                     position = data.position
-                    title = data.title
+                    title = "${context.getString(R.string.magnitude)} ${data.magnitude}"
                     id = data.earthquakeId
                     subDescription = subDescriptionFormated
                     icon = magIcon(

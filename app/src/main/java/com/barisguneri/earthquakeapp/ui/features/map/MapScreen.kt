@@ -39,6 +39,7 @@ import com.barisguneri.earthquakeapp.ui.features.map.component.MapScreenAppBar
 import com.barisguneri.earthquakeapp.ui.features.map.component.MapView
 import com.barisguneri.earthquakeapp.ui.features.map.navigaiton.MapNavActions
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
+import com.barisguneri.earthquakeapp.ui.theme.AppTheme.padding
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import org.osmdroid.util.GeoPoint
@@ -75,37 +76,44 @@ fun MapContent(
     uiState: MapContract.UiState,
     onAction: (MapContract.UiAction) -> Unit,
 ) {
+    Box(
+        modifier = Modifier
+            .padding(1.dp)
+            .fillMaxSize()
+            .background(color = Color.White)
+    ) {
+        // MapViewContent en altta
+        uiState.earthquake?.let { earthquakeList ->
+            MapViewContent(
+                earthquakeList = earthquakeList,
+                onAction = onAction
+            )
+        }
 
-    Scaffold(topBar = { MapScreenAppBar() }) { paddingValues ->
-        Box(
+        // AppBar en üstte
+        MapScreenAppBar(
             modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-                .background(color = Color.White)
+                .align(Alignment.TopCenter)
+                .zIndex(1f),
+            onFilterClick = {},
+            onSearchClick = {}
+        )
+
+        IconButton(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(bottom = padding.dimension8, end = padding.dimension8)
+                .size(50.dp),
+            onClick = {},
         ) {
-            uiState.earthquake?.let { earthquakeList ->
-                MapViewContent(
-                    earthquakeList = earthquakeList,
-                    onAction = onAction
-                )
-                IconButton(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(top = 8.dp, end = 8.dp)
-                        .size(50.dp)
-                        .zIndex(1f),
-                    content = {
-                        Icon(
-                            painter = painterResource(R.drawable.gps_icon48),
-                            contentDescription = "Konumum Icon"
-                        )
-                    },
-                    onClick = {}
-                )
-            }
+            Icon(
+                painter = painterResource(R.drawable.gps_icon48),
+                contentDescription = "Konumum Icon"
+            )
         }
     }
 }
+
 
 @Composable
 private fun MapViewContent(
