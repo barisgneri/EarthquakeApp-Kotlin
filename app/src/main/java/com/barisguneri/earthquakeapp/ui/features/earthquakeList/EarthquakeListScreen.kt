@@ -99,9 +99,7 @@ private fun EarthquakeContent(
             else ->
                 LazyColumn(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.White),
-                    contentPadding = PaddingValues(8.dp),
+                        .fillMaxWidth(),
                 ) {
                     items(
                         count = pagingItems.itemCount,

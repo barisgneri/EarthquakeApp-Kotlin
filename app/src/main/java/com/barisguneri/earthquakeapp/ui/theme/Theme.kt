@@ -10,6 +10,8 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.luminance
 import com.barisguneri.earthquakeapp.core.presentation.SystemBarsScrim
 
+val LocalActivity = staticCompositionLocalOf<Activity?> { null }
+
 object AppTheme {
     val colors: AppColor
         @Composable
@@ -42,7 +44,6 @@ object AppTheme {
         get() = LocalDimenSize.current
 }
 
-val LocalActivity = staticCompositionLocalOf<Activity?> { null }
 
 @Composable
 fun AppTheme(

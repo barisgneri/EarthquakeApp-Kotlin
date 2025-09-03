@@ -73,7 +73,7 @@ fun EarthquakeBottomBar(
         HorizontalDivider(
             modifier = modifier
                 .fillMaxWidth().align(Alignment.TopCenter),
-            thickness = dimens.dp1,
+            thickness = 0.6.dp,
             color = colors.onBackground
         )
     }
