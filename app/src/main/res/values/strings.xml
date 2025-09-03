@@ -17,5 +17,13 @@
     <string name="dateTime"><![CDATA[Tarih & Saat:]]></string>
     <string name="closestAirport">Yakındaki Havalimanları</string>
     <string name="closestCities">Yakındaki Şehirler</string>
+    <string name="yearsAgo">yıl önce</string>
+    <string name="monthAgo">ay önce</string>
+    <string name="weekAgo">hafta önce</string>
+    <string name="daysAgo">gün önce</string>
+    <string name="hoursAgo">saat önce</string>
+    <string name="minutesAgo">dakika önce</string>
+    <string name="fewSecondsAgo">birkaç saniye önce</string>
+    <string name="invalidDateFormat">Geçersiz tarih formatı</string>
 
 </resources>

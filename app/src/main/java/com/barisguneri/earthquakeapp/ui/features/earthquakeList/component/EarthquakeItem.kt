@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -100,7 +101,7 @@ fun EarthquakeItem(earthquake: EarthquakeInfo, onClick: () -> Unit) {
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = calculateNowAndDateTimeBetween(earthquake.dateTime),
+                text = calculateNowAndDateTimeBetween(context = LocalContext.current, date = earthquake.dateTime),
                 color = colors.textSecondary,
                 fontSize = fontSize.mediumSmall,
                 fontWeight = FontWeight.Normal,

@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
@@ -52,7 +53,7 @@ fun Int.toReadableString(): String {
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun calculateNowAndDateTimeBetween(date: String): String {
+fun calculateNowAndDateTimeBetween(context: Context, date: String): String {
     //2025-09-03 00:31:47
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
@@ -60,23 +61,19 @@ fun calculateNowAndDateTimeBetween(date: String): String {
     try {
         pastTime = LocalDateTime.parse(date, formatter)
     } catch (e: Exception) {
-        return "Geçersiz tarih formatı"
+        return context.getString(R.string.invalidDateFormat)
     }
 
     val now = LocalDateTime.now()
-    if (pastTime.isAfter(now)) {
-        return "Henüz gerçekleşmedi"
-    }
     val period = Period.between(pastTime.toLocalDate(), now.toLocalDate())
     val duration = Duration.between(pastTime, now)
-
     return when {
-        period.years > 0 -> "${period.years} yıl önce"
-        period.months > 0 -> "${period.months} ay önce"
-        period.days >= 7 -> "${period.days / 7} hafta önce"
-        period.days > 0 -> "${period.days} gün önce"
-        duration.toHours() > 0 -> "${duration.toHours()} saat önce"
-        duration.toMinutes() > 0 -> "${duration.toMinutes()} dakika önce"
-        else -> "birkaç saniye önce"
+        period.years > 0 -> "${period.years} ${context.getString(R.string.yearsAgo)}"
+        period.months > 0 -> "${period.months} ${context.getString(R.string.monthAgo)}"
+        period.days >= 7 -> "${period.days / 7} ${context.getString(R.string.weekAgo)}"
+        period.days > 0 -> "${period.days} ${context.getString(R.string.daysAgo)}"
+        duration.toHours() > 0 -> "${duration.toHours()} ${context.getString(R.string.hoursAgo)}"
+        duration.toMinutes() > 0 -> "${duration.toMinutes()} ${context.getString(R.string.minutesAgo)}"
+        else -> context.getString(R.string.fewSecondsAgo)
     }
 }
