@@ -106,4 +106,5 @@ data class AppColor(
     val magnitudeBackgroundOrange : Color = Color(0xFF7e2a0c),
     val magnitudeBackgroundYellow : Color = Color(0xFF733e0a),
     val magnitudeBackgroundGreen : Color = Color(0xFF0d542b),
+    val inactiveColor : Color = Color(0xFF4B5563),
 )

@@ -7,8 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.graphics.luminance
-import com.barisguneri.earthquakeapp.core.presentation.SystemBarsScrim
 
 val LocalActivity = staticCompositionLocalOf<Activity?> { null }
 
@@ -48,18 +46,10 @@ object AppTheme {
 @Composable
 fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    systemBarsColorOverride: Color? = null,
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) darkColors() else lightColors()
-    val barColor = systemBarsColorOverride ?: colors.background
-    val lightIcons = barColor.luminance() > .5f
 
-    SystemBarsScrim(
-        barColor = barColor,
-        lightBarIcons = lightIcons,
-        lightNavIcons = lightIcons
-    )
     CompositionLocalProvider(
         LocalColors provides colors,
         LocalPadding provides Padding,

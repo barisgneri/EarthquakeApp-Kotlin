@@ -1,9 +1,12 @@
 package com.barisguneri.earthquakeapp.ui.navigation.graph
 
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -22,7 +25,7 @@ import com.barisguneri.earthquakeapp.ui.navigation.bottom.EarthquakeBottomBar
 
 fun NavGraphBuilder.bottomNavGraph(
     navController: NavHostController,
-    startDestination: BottomScreen = BottomScreen.Map,
+    startDestination: BottomScreen = BottomScreen.HomeList,
 ) {
     composable<MainScreen.BottomNavGraph> {
         val bottomNavController = rememberNavController()
@@ -35,8 +38,13 @@ fun NavGraphBuilder.bottomNavGraph(
                 navController = bottomNavController,
                 startDestination = startDestination,
                 modifier = Modifier
-                    .padding(innerPadding)
+                    .padding(
+                        start = innerPadding.calculateStartPadding(LayoutDirection.Ltr),
+                        end = innerPadding.calculateEndPadding(LayoutDirection.Ltr),
+                        bottom = innerPadding.calculateBottomPadding()
+                    )
                     .imePadding()
+
             ) {
                 listScreen(
                     ListNavActions(

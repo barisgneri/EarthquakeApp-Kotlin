@@ -1,0 +1,377 @@
+package com.barisguneri.earthquakeapp.ui.features.earthquakeList.component
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.barisguneri.earthquakeapp.R
+import com.barisguneri.earthquakeapp.domain.model.SortedOption
+import com.barisguneri.earthquakeapp.domain.model.TimeRange
+import com.barisguneri.earthquakeapp.ui.theme.AppTheme
+import com.barisguneri.earthquakeapp.ui.theme.AppTheme.colors
+import com.barisguneri.earthquakeapp.ui.theme.AppTheme.dimens
+import com.barisguneri.earthquakeapp.ui.theme.AppTheme.fontSize
+import com.barisguneri.earthquakeapp.ui.theme.AppTheme.padding
+import com.barisguneri.earthquakeapp.ui.theme.poppinsFontFamily
+
+@Composable
+fun ListScreenTopAppBar(
+    modifier: Modifier = Modifier, searchText: String,
+    onSearchTextChanged: (String) -> Unit
+) {
+
+    var isExpanded by rememberSaveable { mutableStateOf(true) }
+
+    Column(modifier.fillMaxWidth()) {
+        Box(contentAlignment = Alignment.Center) {
+            Text(
+                text = stringResource(R.string.app_name),
+                modifier = Modifier.fillMaxWidth(),
+                fontSize = fontSize.large,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = poppinsFontFamily,
+                color = colors.text
+            )
+            IconButton(modifier = Modifier.align(Alignment.CenterEnd), onClick = {}) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Search",
+                    tint = colors.text,
+                )
+            }
+        }
+        Row(
+            modifier = Modifier
+                .padding(vertical = padding.dimension12)
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(padding.dimension8)
+        ) {
+            OutlinedTextField(
+                value = searchText,
+                onValueChange = {
+                    onSearchTextChanged(it)
+                },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Search",
+                        tint = colors.text,
+                    )
+                },
+                singleLine = true,
+                placeholder = {
+                    Text(
+                        text = stringResource(R.string.search),
+                        fontSize = fontSize.medium,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = poppinsFontFamily,
+                        color = colors.text
+                    )
+                },
+                textStyle = TextStyle(
+                    color = colors.text,
+                    fontSize = fontSize.medium,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = poppinsFontFamily
+                ),
+                shape = CircleShape,
+                modifier = Modifier
+                    .padding(
+                        vertical = padding.dimension2,
+                        horizontal = padding.dimension12
+                    )
+                    .weight(1f),
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedContainerColor = colors.lightGray.copy(
+                        alpha = 0.3f
+                    ),
+                    focusedContainerColor = colors.lightGray.copy(
+                        alpha = 0.3f
+                    ),
+                    focusedBorderColor = colors.lightGray.copy(
+                        alpha = 0.6f
+                    ),
+                    unfocusedBorderColor = colors.lightGray.copy(
+                        alpha = 0.6f
+                    ),
+                    cursorColor = colors.text,
+                ),
+            )
+            Button(
+                modifier = Modifier
+                    .padding(end = padding.dimension12)
+                    .fillMaxHeight(),
+                onClick = {
+                    isExpanded = !isExpanded
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colors.lightGray.copy(alpha = 0.3f)
+                ),
+            ) {
+
+                Icon(
+                    modifier = Modifier.size(height = dimens.dp40, width = dimens.dp20),
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = "Search",
+                    tint = colors.text,
+                )
+                Text(
+                    textAlign = TextAlign.Center,
+                    text = "Search",
+                    fontFamily = poppinsFontFamily,
+                    fontSize = fontSize.medium,
+                    color = colors.text,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        }
+        AnimatedVisibility(
+            visible = isExpanded,
+            enter = expandVertically() + fadeIn(),
+            exit = shrinkVertically() + fadeOut()
+        ) {
+            Column(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                MagnitudeContent()
+                TimeRangeContent()
+                SortFilterContent()
+                HorizontalDivider(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = colors.onBackground,
+                    thickness = 0.6.dp
+                )
+            }
+        }
+    }
+
+}
+
+@Composable
+fun SortFilterContent() {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(padding.dimension8),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        var selectedOption by remember { mutableStateOf(SortedOption.DATE) }
+        Text(
+            stringResource(R.string.sorted_by),
+            fontFamily = poppinsFontFamily,
+            fontSize = fontSize.medium,
+            color = colors.text,
+            fontWeight = FontWeight.Normal,
+            textAlign = TextAlign.Start,
+        )
+
+        SortedOption.entries.forEach { option ->
+            val isSelected = selectedOption == option
+            Button(
+                onClick = {
+                    selectedOption = option
+                },
+                shape = CircleShape,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isSelected) colors.primary.copy(alpha = 0.4f) else colors.lightGray.copy(
+                        alpha = 0.3f
+                    ),
+                    contentColor = if (isSelected) colors.primaryBlue else colors.text
+                )
+            ) {
+                Text(text = option.title)
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TimeRangeContent() {
+    val options = TimeRange.entries
+
+    var expanded by remember { mutableStateOf(false) }
+    var selectedOption by remember { mutableStateOf(TimeRange.LAST_7_DAYS) }
+
+    Text(
+        stringResource(R.string.time_range),
+        fontFamily = poppinsFontFamily,
+        fontSize = fontSize.medium,
+        color = colors.text,
+        fontWeight = FontWeight.Normal,
+        textAlign = TextAlign.Start,
+    )
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = padding.dimension8)
+    ) {
+        OutlinedTextField(
+            modifier = Modifier
+                .menuAnchor(MenuAnchorType.PrimaryEditable, true)
+                .fillMaxWidth(),
+            readOnly = true,
+            value = selectedOption.title,
+            onValueChange = {},
+            shape = CircleShape,
+            singleLine = true,
+            placeholder = {
+                Text(
+                    text = stringResource(R.string.search),
+                    fontSize = fontSize.medium,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = poppinsFontFamily,
+                    color = colors.text
+                )
+            },
+            textStyle = TextStyle(
+                color = colors.text,
+                fontSize = fontSize.medium,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = poppinsFontFamily
+            ),
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
+                unfocusedContainerColor = colors.lightGray.copy(
+                    alpha = 0.3f
+                ),
+                focusedContainerColor = colors.lightGray.copy(
+                    alpha = 0.3f
+                ),
+                focusedBorderColor = colors.lightGray.copy(
+                    alpha = 0.6f
+                ),
+                unfocusedBorderColor = colors.lightGray.copy(
+                    alpha = 0.6f
+                ),
+                focusedTrailingIconColor = colors.text,
+                unfocusedTrailingIconColor = colors.text,
+            ),
+
+            )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+        ) {
+            options.forEach { selectionTime ->
+                DropdownMenuItem(
+                    text = { Text(selectionTime.title) },
+                    onClick = {
+                        selectedOption = selectionTime
+                        expanded = false
+                    },
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun MagnitudeContent() {
+    Text(
+        stringResource(R.string.magnitude),
+        fontFamily = poppinsFontFamily,
+        fontSize = fontSize.medium,
+        color = colors.text,
+        fontWeight = FontWeight.Normal,
+        textAlign = TextAlign.Start
+    )
+    var sliderPosition by remember { mutableFloatStateOf(4f) }
+
+    Column(modifier = Modifier.padding(horizontal = padding.dimension8)) {
+        Slider(
+            value = sliderPosition,
+            onValueChange = { sliderPosition = it },
+            valueRange = 0f..10f,
+            steps = 4,
+            colors = SliderDefaults.colors(
+                thumbColor = colors.primary,
+                activeTrackColor = colors.primary,
+                inactiveTrackColor = colors.inactiveColor,
+                activeTickColor = colors.white.copy(alpha = 0.5f),
+                inactiveTickColor = Color.Transparent
+            )
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            for (i in 10 downTo 0 step 2) {
+                Text(text = i.toString(), color = Color.Gray)
+            }
+        }
+    }
+}
+
+
+@Composable
+@Preview
+fun ListScreenTopAppBarPreview() {
+    AppTheme {
+        var searchText by remember { mutableStateOf("") }
+        ListScreenTopAppBar(
+            searchText = searchText,
+            onSearchTextChanged = { searchText = it })
+    }
+}

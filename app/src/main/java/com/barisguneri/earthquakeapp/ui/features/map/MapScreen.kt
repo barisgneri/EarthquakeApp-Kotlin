@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.captionBarPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.safeGesturesPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Icon
@@ -40,6 +42,7 @@ import com.barisguneri.earthquakeapp.ui.features.map.component.MapView
 import com.barisguneri.earthquakeapp.ui.features.map.navigaiton.MapNavActions
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.padding
+import com.barisguneri.earthquakeapp.ui.theme.LocalPadding
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import org.osmdroid.util.GeoPoint
@@ -94,7 +97,8 @@ fun MapContent(
         MapScreenAppBar(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .zIndex(1f),
+                .zIndex(1f)
+                .statusBarsPadding(),
             onFilterClick = {},
             onSearchClick = {}
         )

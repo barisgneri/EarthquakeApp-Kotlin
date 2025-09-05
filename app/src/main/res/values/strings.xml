@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EarthquakeApp</string>
+    <string name="app_name">Son Depremler</string>
     <string name="no_more_load_please_try_again">Daha fazla yüklenemedi. Lütfen tekrar deneyin.</string>
     <string name="try_again">Tekrar Dene</string>
     <string name="list">Liste</string>
@@ -25,5 +25,8 @@
     <string name="minutesAgo">dakika önce</string>
     <string name="fewSecondsAgo">birkaç saniye önce</string>
     <string name="invalidDateFormat">Geçersiz tarih formatı</string>
+    <string name="search">Deprem Ara</string>
+    <string name="time_range">Zaman aralığı</string>
+    <string name="sorted_by">Sırala:</string>
 
 </resources>
