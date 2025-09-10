@@ -56,8 +56,8 @@ fun EarthquakeListScreen(
     uiState: UiState,
     uiEffect: Flow<UiEffect>,
     onAction: (UiAction) -> Unit,
-    navActions: ListNavActions
-
+    navActions: ListNavActions,
+    pagingItems: LazyPagingItems<EarthquakeInfo>
 ) {
 
     uiEffect.CollectWithLifecycle { effect ->
@@ -74,10 +74,10 @@ fun EarthquakeListScreen(
             onRetry = { onAction(UiAction.Retry) })
 
         else -> {
-            val pagingItems = uiState.pagingDataFlow.collectAsLazyPagingItems()
             EarthquakeContent(
                 pagingItems = pagingItems,
                 onAction = onAction,
+                uiState = uiState
             )
         }
     }
@@ -88,7 +88,8 @@ fun EarthquakeListScreen(
 @Composable
 private fun EarthquakeContent(
     pagingItems: LazyPagingItems<EarthquakeInfo>,
-    onAction: (UiAction) -> Unit
+    onAction: (UiAction) -> Unit,
+    uiState: UiState
 ) {
     Column(
         modifier = Modifier
@@ -96,7 +97,7 @@ private fun EarthquakeContent(
             .background(color = colors.background)
             .statusBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         when (val refreshState = pagingItems.loadState.refresh) {
             is LoadState.Loading -> {
@@ -114,7 +115,10 @@ private fun EarthquakeContent(
                 )
             }
 
-            else -> SuccessEarthquakeDataContent(earthquakeList = pagingItems, onAction = onAction)
+            else -> {
+                ListScreenTopAppBar(onAction = onAction, filterState = uiState.filterState)
+                SuccessEarthquakeDataContent(earthquakeList = pagingItems, onAction = onAction)
+            }
         }
     }
 }
@@ -125,24 +129,21 @@ fun SuccessEarthquakeDataContent(
     onAction: (UiAction) -> Unit
 ) {
 
-    var searchText by rememberSaveable { mutableStateOf("") }
-
-    if (earthquakeList.itemCount > 1) ListScreenTopAppBar(
-        searchText = searchText,
-        onSearchTextChanged = { searchText = it })
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth(),
     ) {
         items(
             count = earthquakeList.itemCount,
-            key = { index -> (earthquakeList[index]?.id + index) }
+            key = { index -> earthquakeList.peek(index)?.id + index }
         ) { index ->
             val earthquake = earthquakeList[index]
-            earthquake?.let {
+            if (earthquake != null) {
                 EarthquakeItem(
-                    earthquake = it,
-                    onClick = { onAction(UiAction.OnEarthquakeClick(it.id)) })
+                    earthquake = earthquake,
+                    onClick = { onAction(UiAction.OnEarthquakeClick(earthquake.id)) })
+            }else{
+                Text(text = "Uygun Sonuç Bulunamadı")
             }
         }
 

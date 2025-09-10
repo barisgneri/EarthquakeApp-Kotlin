@@ -1,10 +1,8 @@
 package com.barisguneri.earthquakeapp.data.mapper
 
-import com.barisguneri.earthquakeapp.data.api.model.AirportDTO
-import com.barisguneri.earthquakeapp.data.api.model.ClosestCityDTO
-import com.barisguneri.earthquakeapp.data.api.model.EarthquakeDTO
-import com.barisguneri.earthquakeapp.data.api.model.EpiCenterDTO
-import com.barisguneri.earthquakeapp.data.api.model.ResultDTO
+import com.barisguneri.earthquakeapp.core.common.convertDateStringToLong
+import com.barisguneri.earthquakeapp.data.remote.dto.EpiCenterDTO
+import com.barisguneri.earthquakeapp.data.remote.dto.ResultDTO
 import com.barisguneri.earthquakeapp.domain.model.Airports
 import com.barisguneri.earthquakeapp.domain.model.ClosestCities
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeDetail
@@ -18,7 +16,7 @@ fun ResultDTO.toDetailModel() : EarthquakeDetail{
         location = cordinates,
         magnitude = this.mag,
         date = this.date,
-        dateTime = this.dateTime,
+        dateTime = convertDateStringToLong(this.dateTime),
         depthInfo = this.depth.toString(),
         title = this.title,
         airports = this.toAirportsModel(),

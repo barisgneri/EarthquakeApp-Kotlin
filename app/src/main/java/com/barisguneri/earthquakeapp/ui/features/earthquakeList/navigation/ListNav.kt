@@ -5,6 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListScreen
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeViewModel
 import com.barisguneri.earthquakeapp.ui.navigation.BottomScreen
@@ -25,11 +26,13 @@ fun NavGraphBuilder.listScreen(actions: ListNavActions){
         val viewModel: EarthquakeViewModel = hiltViewModel()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         val uiEffect = viewModel.uiEffect
+        val lazyPagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
         EarthquakeListScreen(
             uiState = uiState,
             uiEffect = uiEffect,
             onAction = viewModel::onAction,
-            navActions = actions
+            navActions = actions,
+            pagingItems = lazyPagingItems
         )
     }
 }

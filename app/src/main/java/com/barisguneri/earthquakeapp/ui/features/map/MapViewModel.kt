@@ -44,7 +44,7 @@ class MapViewModel @Inject constructor(private val getAllEarthquakesUseCase: Get
             when (result) {
                 is Resource.Success -> {
                     updateState {
-                        copy(earthquake = result.data, isLoading = false)
+                        copy(earthquake = result.data, isLoading = false, error = null)
                     }
                 }
 

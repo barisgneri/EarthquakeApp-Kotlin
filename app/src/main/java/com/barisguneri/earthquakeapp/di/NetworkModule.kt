@@ -1,9 +1,7 @@
 package com.barisguneri.earthquakeapp.di
 
-import com.barisguneri.earthquakeapp.data.api.KandilliApiService
+import com.barisguneri.earthquakeapp.data.remote.api.KandilliApiService
 import com.barisguneri.earthquakeapp.core.common.NetworkConstants.BASE_URL
-import com.barisguneri.earthquakeapp.data.repository.EarthquakeRepositoryImpl
-import com.barisguneri.earthquakeapp.domain.repository.EarthquakeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +15,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object NetworkModule {
 
     @Provides
     @Singleton
@@ -54,9 +52,4 @@ object AppModule {
         return retrofit.create(KandilliApiService::class.java)
     }
 
-    @Provides
-    @Singleton
-    fun provideEarthquakeRepository(apiService: KandilliApiService): EarthquakeRepository {
-        return EarthquakeRepositoryImpl(apiService = apiService)
-    }
 }

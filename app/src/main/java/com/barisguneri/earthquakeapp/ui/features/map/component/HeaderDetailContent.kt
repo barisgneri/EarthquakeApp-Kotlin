@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.barisguneri.earthquakeapp.R
 import com.barisguneri.earthquakeapp.core.common.PreviewMockData.mockEarthquakeInfo
+import com.barisguneri.earthquakeapp.core.common.convertLongToDateString
 import com.barisguneri.earthquakeapp.core.common.toReadableString
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeDetail
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
@@ -40,7 +41,7 @@ fun HeaderDetailContent(modifier: Modifier, earthquake: EarthquakeDetail) {
             DetailItem(
                 modifier = Modifier.weight(1f),
                 headerName = R.string.dateTime,
-                detailText = earthquake.dateTime
+                detailText = convertLongToDateString(earthquake.dateTime)
             )
 
             HorizontalDivider(

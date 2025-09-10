@@ -10,6 +10,7 @@ import com.barisguneri.earthquakeapp.R
 import com.barisguneri.earthquakeapp.core.common.Constants
 import com.barisguneri.earthquakeapp.core.common.Constants.defaultCenterLat
 import com.barisguneri.earthquakeapp.core.common.Constants.defaultCenterLong
+import com.barisguneri.earthquakeapp.core.common.convertLongToDateString
 import com.barisguneri.earthquakeapp.core.common.magIcon
 import com.barisguneri.earthquakeapp.core.presentation.map.CustomInfoWindow
 import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
@@ -43,7 +44,7 @@ fun MapView(
                     val subDescriptionFormated = String.format(
                         context.getString(R.string.formated_sub_description),
                         data.title,
-                        data.dateTime
+                        convertLongToDateString(data.dateTime)
                     )
 
                     view.controller.setCenter(GeoPoint(defaultCenterLat, defaultCenterLong))

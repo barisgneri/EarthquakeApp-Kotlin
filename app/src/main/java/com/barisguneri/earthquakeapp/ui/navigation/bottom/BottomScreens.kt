@@ -1,12 +1,9 @@
 package com.barisguneri.earthquakeapp.ui.navigation.bottom
 
-import android.content.Context
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.barisguneri.earthquakeapp.R
 import com.barisguneri.earthquakeapp.ui.navigation.BottomScreen
-
 
 data class BottomScreens<T : Any>(val route: T, val icon: Int, val name: Int)
 

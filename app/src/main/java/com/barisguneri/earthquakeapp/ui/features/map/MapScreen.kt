@@ -1,29 +1,15 @@
 package com.barisguneri.earthquakeapp.ui.features.map
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.captionBarPadding
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.foundation.layout.safeGesturesPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.barisguneri.earthquakeapp.R
 import com.barisguneri.earthquakeapp.core.common.CollectWithLifecycle
+import com.barisguneri.earthquakeapp.core.presentation.ErrorView
 import com.barisguneri.earthquakeapp.core.presentation.LoadingView
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
@@ -42,7 +29,6 @@ import com.barisguneri.earthquakeapp.ui.features.map.component.MapView
 import com.barisguneri.earthquakeapp.ui.features.map.navigaiton.MapNavActions
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.padding
-import com.barisguneri.earthquakeapp.ui.theme.LocalPadding
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import org.osmdroid.util.GeoPoint
@@ -64,6 +50,12 @@ fun MapScreen(
 
     when {
         uiState.isLoading -> LoadingView()
+        uiState.error != null -> ErrorView(
+            errorType = uiState.error,
+            modifier = Modifier.statusBarsPadding(),
+            onRetry = { onAction(MapContract.UiAction.Retry) }
+        )
+
         else -> {
             MapContent(
                 uiState = uiState,
@@ -130,7 +122,7 @@ private fun MapViewContent(
             MapMarkerData(
                 position = GeoPoint(
                     detail.location.lat,
-                    detail.location.long
+                    detail.location.lng
                 ),
                 title = detail.title,
                 depth = detail.magnitude.toString(),

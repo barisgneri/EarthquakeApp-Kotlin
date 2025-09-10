@@ -2,18 +2,16 @@ package com.barisguneri.earthquakeapp.ui.features.earthquakeList.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,7 +55,7 @@ fun EarthquakeItem(earthquake: EarthquakeInfo, onClick: () -> Unit) {
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.spacedBy(padding.dimension16),
         modifier = Modifier
             .background(colors.background)
             .padding(padding.dimension12)
@@ -66,14 +64,11 @@ fun EarthquakeItem(earthquake: EarthquakeInfo, onClick: () -> Unit) {
     ) {
         Text(
             modifier = Modifier
-                .padding(
-                    padding.dimension4
-                )
-                .width(dimens.dp55)
                 .clip(CircleShape)
                 .background(
                     magnitudeBackgroundColor.copy(alpha = 0.5f)
                 )
+                .defaultMinSize(minWidth = dimens.dp55)
                 .padding(
                     padding.dimension12
                 ),
@@ -83,12 +78,11 @@ fun EarthquakeItem(earthquake: EarthquakeInfo, onClick: () -> Unit) {
             fontFamily = poppinsFontFamily,
             fontSize = fontSize.large,
             fontWeight = FontWeight.SemiBold,
+            maxLines = 1
         )
 
         Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = padding.dimension16),
+            modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
@@ -101,7 +95,7 @@ fun EarthquakeItem(earthquake: EarthquakeInfo, onClick: () -> Unit) {
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = calculateNowAndDateTimeBetween(context = LocalContext.current, date = earthquake.dateTime),
+                text = calculateNowAndDateTimeBetween(context = LocalContext.current, timestamp = earthquake.dateTime),
                 color = colors.textSecondary,
                 fontSize = fontSize.mediumSmall,
                 fontWeight = FontWeight.Normal,
@@ -121,36 +115,36 @@ fun EarthquakeItem(earthquake: EarthquakeInfo, onClick: () -> Unit) {
 fun EarthquakeItemPreview() {
     val earthquake = EarthquakeInfo(
         id = "",
-        location = Location(lat = 1344.2, long = 1234.1),
+        location = Location(lat = 1344.2, lng = 1234.1),
         date = "12/12/2012",
-        dateTime = "2025.09.03 11:16:54",
+        dateTime = 1,
         depthInfo = "40km",
         magnitude = 1.1,
         title = "Silivri Açıkları, Silivri Açıkları, Silivri Açıkları"
     )
     val earthquake1 = EarthquakeInfo(
         id = "",
-        location = Location(lat = 1344.2, long = 1234.1),
+        location = Location(lat = 1344.2, lng = 1234.1),
         date = "12/12/2012",
-        dateTime = "2025.09.03 11:16:54",
+        dateTime = 1,
         depthInfo = "40km",
         magnitude = 3.8,
         title = "Silivri Açıkları"
     )
     val earthquake3 = EarthquakeInfo(
         id = "",
-        location = Location(lat = 1344.2, long = 1234.1),
+        location = Location(lat = 1344.2, lng = 1234.1),
         date = "12/12/2012",
-        dateTime = "2025.09.03 11:16:54",
+        dateTime = 1,
         depthInfo = "40km",
         magnitude = 4.5,
         title = "Silivri Açıkları"
     )
     val earthquake4 = EarthquakeInfo(
         id = "",
-        location = Location(lat = 1344.2, long = 1234.1),
+        location = Location(lat = 1344.2, lng = 1234.1),
         date = "12/12/2012",
-        dateTime = "2025.09.03 11:16:54",
+        dateTime = 1,
         depthInfo = "40km",
         magnitude = 5.4,
         title = "Silivri Açıkları"

@@ -118,4 +118,10 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+// Room
+    implementation("androidx.room:room-runtime:2.7.2")
+    kapt("androidx.room:room-compiler:2.7.2")
+    implementation("androidx.room:room-ktx:2.7.2")
+    implementation("androidx.room:room-paging:2.7.2")
+
 }

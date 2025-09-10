@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,7 +23,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -36,7 +33,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -57,23 +53,31 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.barisguneri.earthquakeapp.R
-import com.barisguneri.earthquakeapp.domain.model.SortedOption
+import com.barisguneri.earthquakeapp.core.common.ErrorType
+import com.barisguneri.earthquakeapp.domain.model.FilterState
+import com.barisguneri.earthquakeapp.domain.model.SortOption
 import com.barisguneri.earthquakeapp.domain.model.TimeRange
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListContract.UiAction
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeViewModel
+import com.barisguneri.earthquakeapp.ui.features.map.MapContract
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.colors
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.dimens
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.fontSize
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.padding
 import com.barisguneri.earthquakeapp.ui.theme.poppinsFontFamily
+import kotlinx.coroutines.Job
 
 @Composable
 fun ListScreenTopAppBar(
-    modifier: Modifier = Modifier, searchText: String,
-    onSearchTextChanged: (String) -> Unit
+    modifier: Modifier = Modifier, onAction: (UiAction) -> Unit, filterState: FilterState,
 ) {
 
-    var isExpanded by rememberSaveable { mutableStateOf(true) }
+    var isExpanded by rememberSaveable { mutableStateOf(false) }
+    var searchText by rememberSaveable { mutableStateOf("") }
 
     Column(modifier.fillMaxWidth()) {
         Box(contentAlignment = Alignment.Center) {
@@ -103,9 +107,11 @@ fun ListScreenTopAppBar(
             horizontalArrangement = Arrangement.spacedBy(padding.dimension8)
         ) {
             OutlinedTextField(
-                value = searchText,
+                value = filterState.searchQuery,
                 onValueChange = {
-                    onSearchTextChanged(it)
+                    searchText = it
+                        onAction(UiAction.UpdateSearchQuery(searchText))
+
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 leadingIcon = {
@@ -159,6 +165,7 @@ fun ListScreenTopAppBar(
                     .padding(end = padding.dimension12)
                     .fillMaxHeight(),
                 onClick = {
+                    // onAction(UiAction.UpdateSearchQuery(searchText))
                     isExpanded = !isExpanded
                 },
                 colors = ButtonDefaults.buttonColors(
@@ -191,9 +198,9 @@ fun ListScreenTopAppBar(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                MagnitudeContent()
-                TimeRangeContent()
-                SortFilterContent()
+                MagnitudeContent(onAction = onAction, filterState = filterState)
+                TimeRangeContent(onAction = onAction, filterState = filterState)
+                SortFilterContent(onAction = onAction, filterState = filterState)
                 HorizontalDivider(
                     modifier = Modifier.fillMaxWidth(),
                     color = colors.onBackground,
@@ -206,12 +213,12 @@ fun ListScreenTopAppBar(
 }
 
 @Composable
-fun SortFilterContent() {
+fun SortFilterContent(onAction: (UiAction) -> Unit, filterState: FilterState) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(padding.dimension8),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        var selectedOption by remember { mutableStateOf(SortedOption.DATE) }
+        var selectedOption by remember { mutableStateOf(SortOption.DATE) }
         Text(
             stringResource(R.string.sorted_by),
             fontFamily = poppinsFontFamily,
@@ -221,11 +228,12 @@ fun SortFilterContent() {
             textAlign = TextAlign.Start,
         )
 
-        SortedOption.entries.forEach { option ->
-            val isSelected = selectedOption == option
+        SortOption.entries.forEach { option ->
+            val isSelected = filterState.sortBy == option
             Button(
                 onClick = {
                     selectedOption = option
+                    onAction(UiAction.UpdateSortBy(option))
                 },
                 shape = CircleShape,
                 colors = ButtonDefaults.buttonColors(
@@ -243,9 +251,7 @@ fun SortFilterContent() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimeRangeContent() {
-    val options = TimeRange.entries
-
+fun TimeRangeContent(onAction: (UiAction) -> Unit, filterState: FilterState) {
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf(TimeRange.LAST_7_DAYS) }
 
@@ -270,7 +276,7 @@ fun TimeRangeContent() {
                 .menuAnchor(MenuAnchorType.PrimaryEditable, true)
                 .fillMaxWidth(),
             readOnly = true,
-            value = selectedOption.title,
+            value = stringResource(filterState.timeRange.titleResId),
             onValueChange = {},
             shape = CircleShape,
             singleLine = true,
@@ -313,11 +319,12 @@ fun TimeRangeContent() {
             expanded = expanded,
             onDismissRequest = { expanded = false },
         ) {
-            options.forEach { selectionTime ->
+            TimeRange.entries.forEach { selectionTime ->
                 DropdownMenuItem(
-                    text = { Text(selectionTime.title) },
+                    text = { Text(stringResource(selectionTime.titleResId)) },
                     onClick = {
                         selectedOption = selectionTime
+                        onAction(UiAction.UpdateTimeRange(selectedOption))
                         expanded = false
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
@@ -328,7 +335,7 @@ fun TimeRangeContent() {
 }
 
 @Composable
-fun MagnitudeContent() {
+fun MagnitudeContent(onAction: (UiAction) -> Unit, filterState: FilterState) {
     Text(
         stringResource(R.string.magnitude),
         fontFamily = poppinsFontFamily,
@@ -341,8 +348,11 @@ fun MagnitudeContent() {
 
     Column(modifier = Modifier.padding(horizontal = padding.dimension8)) {
         Slider(
-            value = sliderPosition,
-            onValueChange = { sliderPosition = it },
+            value = filterState.minMagnitude,
+            onValueChange = {
+                sliderPosition = it
+                onAction(UiAction.UpdateMagnitude(sliderPosition))
+            },
             valueRange = 0f..10f,
             steps = 4,
             colors = SliderDefaults.colors(
@@ -357,7 +367,7 @@ fun MagnitudeContent() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            for (i in 10 downTo 0 step 2) {
+            for (i in 0 ..10 step 2) {
                 Text(text = i.toString(), color = Color.Gray)
             }
         }
@@ -369,9 +379,9 @@ fun MagnitudeContent() {
 @Preview
 fun ListScreenTopAppBarPreview() {
     AppTheme {
-        var searchText by remember { mutableStateOf("") }
         ListScreenTopAppBar(
-            searchText = searchText,
-            onSearchTextChanged = { searchText = it })
+            onAction = {},
+            filterState = FilterState()
+        )
     }
 }

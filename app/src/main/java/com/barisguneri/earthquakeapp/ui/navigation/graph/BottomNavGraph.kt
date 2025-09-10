@@ -43,7 +43,7 @@ fun NavGraphBuilder.bottomNavGraph(
                         end = innerPadding.calculateEndPadding(LayoutDirection.Ltr),
                         bottom = innerPadding.calculateBottomPadding()
                     )
-                    .imePadding()
+
 
             ) {
                 listScreen(

@@ -1,12 +1,10 @@
-package com.barisguneri.earthquakeapp.data.api.model
+package com.barisguneri.earthquakeapp.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class ClosestCityDTO(
-    @SerializedName("cityCode")
+data class EpiCenterDTO(
+    @SerializedName("coordinates")
     val cityCode: Int,
-    @SerializedName("distance")
-    val distance: Double,
     @SerializedName("name")
     val name: String,
     @SerializedName("population")

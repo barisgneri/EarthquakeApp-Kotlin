@@ -1,9 +1,9 @@
-package com.barisguneri.earthquakeapp.data.api
+package com.barisguneri.earthquakeapp.data.remote.api
 
 import com.barisguneri.earthquakeapp.core.common.NetworkConstants.EARTHQUAKE_DETAIL_ENDPOINT
 import com.barisguneri.earthquakeapp.core.common.NetworkConstants.LIVE_EARTHQUAKE_ENDPOINT
-import com.barisguneri.earthquakeapp.data.api.model.EarthquakeDTO
-import com.barisguneri.earthquakeapp.data.api.model.EarthquakeDetailDTO
+import com.barisguneri.earthquakeapp.data.remote.dto.EarthquakeDTO
+import com.barisguneri.earthquakeapp.data.remote.dto.EarthquakeDetailDTO
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

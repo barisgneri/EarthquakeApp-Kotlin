@@ -1,6 +1,6 @@
 package com.barisguneri.earthquakeapp.domain.model
 
-enum class SortedOption(val title: String) {
+enum class SortOption(val title: String) {
     DATE("Date"),
     MAGNITUDE("Magnitude"),
 }
