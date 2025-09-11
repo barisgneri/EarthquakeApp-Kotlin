@@ -1,15 +1,15 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("dagger.hilt.android.plugin")
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0"
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
     namespace = "com.barisguneri.earthquakeapp"
-    compileSdk = 36
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     kapt {
         correctErrorTypes = true
@@ -17,8 +17,8 @@ android {
 
     defaultConfig {
         applicationId = "com.barisguneri.earthquakeapp"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -27,8 +27,6 @@ android {
             useSupportLibrary = true
         }
     }
-
-
 
     buildTypes {
         release {
@@ -40,12 +38,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8" // This is now consistent
+        jvmTarget = "17"
     }
 
     buildFeatures {
@@ -59,69 +57,67 @@ android {
     }
 }
 
-// build.gradle.kts
-
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2025.07.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.activity:activity-compose")
-    implementation("androidx.activity:activity:1.10.1")
-    implementation("androidx.navigation:navigation-compose:2.9.2")
-    implementation("androidx.compose.animation:animation")
+    // Compose - BOM ile yönetiliyor
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3) // BOM'dan gelen
+    implementation(libs.androidx.compose.animation)
 
-    implementation("androidx.core:core-ktx:1.16.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx")
+    // Sizin özellikle belirttiğiniz versiyonlar
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.androidx.compose.material3.explicit) // 1.3.2 versiyonu
 
-    // Retrofit
-    implementation ("com.squareup.retrofit2:retrofit:3.0.0")
-    implementation ("com.squareup.retrofit2:converter-gson:3.0.0")
+    // AndroidX Core & Lifecycle
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
-    // Coroutines
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+    // Retrofit & OkHttp
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.logging.interceptor)
+
+    // Coroutines & Serialization
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
 
     // Coil
-    implementation ("io.coil-kt:coil-compose:2.7.0")
-
-    //OKHTTP
-    implementation("com.squareup.okhttp3:logging-interceptor:5.1.0")
+    implementation(libs.coil.compose)
 
     // Dagger - Hilt
-    implementation ("com.google.dagger:hilt-android:2.57")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose-android:2.9.2")
-    implementation("androidx.compose.material3:material3:1.3.2")
-    kapt ("com.google.dagger:hilt-android-compiler:2.57")
-    kapt ("androidx.hilt:hilt-compiler:1.2.0")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 
-    // Other dependencies
-    implementation ("androidx.hilt:hilt-work:1.2.0")
-    implementation ("androidx.work:work-runtime-ktx:2.9.0")
-    implementation ("org.osmdroid:osmdroid-android:6.1.16")
+    // Diğer Bağımlılıklar
+    implementation(libs.hilt.work)
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.osmdroid.android)
 
-    //Pagging3
-    implementation("androidx.paging:paging-runtime-ktx:3.3.6")
-    //optional
-    implementation("androidx.paging:paging-compose:3.3.6")
+    // Paging3
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
 
-    // Testing dependencies
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2025.07.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    // Room
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
-// Room
-    implementation("androidx.room:room-runtime:2.7.2")
-    kapt("androidx.room:room-compiler:2.7.2")
-    implementation("androidx.room:room-ktx:2.7.2")
-    implementation("androidx.room:room-paging:2.7.2")
-
+    // Test Bağımlılıkları
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
