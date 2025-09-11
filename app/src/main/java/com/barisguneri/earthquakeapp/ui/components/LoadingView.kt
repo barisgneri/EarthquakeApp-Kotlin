@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.core.presentation
+package com.barisguneri.earthquakeapp.ui.components
 
 
 import androidx.compose.foundation.background

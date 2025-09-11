@@ -1,7 +1,7 @@
 package com.barisguneri.earthquakeapp.domain.repository
 
 import androidx.paging.PagingData
-import com.barisguneri.earthquakeapp.core.common.Resource
+import com.barisguneri.earthquakeapp.core.data.Resource
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeDetail
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 import com.barisguneri.earthquakeapp.domain.model.FilterState

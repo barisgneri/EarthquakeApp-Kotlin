@@ -11,7 +11,7 @@ import com.barisguneri.earthquakeapp.R
 import com.barisguneri.earthquakeapp.core.common.Constants
 import com.barisguneri.earthquakeapp.core.common.convertLongToDateString
 import com.barisguneri.earthquakeapp.core.common.magIcon
-import com.barisguneri.earthquakeapp.core.presentation.map.CustomInfoWindow
+import com.barisguneri.earthquakeapp.ui.components.map.CustomInfoWindow
 import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract
 import org.osmdroid.events.MapListener

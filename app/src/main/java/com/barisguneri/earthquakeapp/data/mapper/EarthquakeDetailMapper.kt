@@ -10,10 +10,10 @@ import com.barisguneri.earthquakeapp.domain.model.EpiCenter
 import com.barisguneri.earthquakeapp.domain.model.Location
 
 fun ResultDTO.toDetailModel() : EarthquakeDetail{
-    val cordinates = Location(this.geoJson.coordinates[1], this.geoJson.coordinates[0])
+    val coordinates = Location(this.geoJson.coordinates[1], this.geoJson.coordinates[0])
     return EarthquakeDetail(
         id = this.earthquakeId,
-        location = cordinates,
+        location = coordinates,
         magnitude = this.mag,
         date = this.date,
         dateTime = convertDateStringToLong(this.dateTime),

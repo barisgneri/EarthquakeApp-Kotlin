@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.core.common
+package com.barisguneri.earthquakeapp.core.data
 
 sealed class ErrorType {
     object NoInternetConnection : ErrorType()

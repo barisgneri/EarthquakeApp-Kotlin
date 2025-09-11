@@ -12,6 +12,8 @@ import javax.inject.Inject
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract.UiState
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract.UiAction
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract.UiEffect
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -29,6 +31,7 @@ class EarthquakeViewModel @Inject constructor(
     private val getMapEarthquakesUseCase: GetMapEarthquakesUseCase
 ) : MVI<UiState, UiEffect, UiAction>(UiState()) {
 
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     val pagingDataFlow: Flow<PagingData<EarthquakeInfo>> = uiState
         .map { it.filterState }
         .distinctUntilChanged()
@@ -47,6 +50,7 @@ class EarthquakeViewModel @Inject constructor(
         }
         .cachedIn(viewModelScope)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val sourceMapEarthquakes: StateFlow<List<EarthquakeInfo>> = uiState
         .map { it.filterState }
         .distinctUntilChanged()

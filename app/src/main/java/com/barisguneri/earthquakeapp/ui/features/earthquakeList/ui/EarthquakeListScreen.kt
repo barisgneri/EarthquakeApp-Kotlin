@@ -17,11 +17,11 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.barisguneri.earthquakeapp.R
 import com.barisguneri.earthquakeapp.core.common.CollectWithLifecycle
-import com.barisguneri.earthquakeapp.core.common.ErrorType
-import com.barisguneri.earthquakeapp.core.common.PagingException
+import com.barisguneri.earthquakeapp.core.data.ErrorType
+import com.barisguneri.earthquakeapp.core.data.PagingException
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
-import com.barisguneri.earthquakeapp.core.presentation.ErrorView
-import com.barisguneri.earthquakeapp.core.presentation.LoadingView
+import com.barisguneri.earthquakeapp.ui.components.ErrorView
+import com.barisguneri.earthquakeapp.ui.components.LoadingView
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.ui.component.EarthquakeItem
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract.UiState
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract.UiEffect

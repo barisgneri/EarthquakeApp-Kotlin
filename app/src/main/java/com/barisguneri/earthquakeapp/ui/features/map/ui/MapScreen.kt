@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.barisguneri.earthquakeapp.R
 import com.barisguneri.earthquakeapp.core.common.CollectWithLifecycle
-import com.barisguneri.earthquakeapp.core.presentation.ErrorView
-import com.barisguneri.earthquakeapp.core.presentation.LoadingView
+import com.barisguneri.earthquakeapp.ui.components.ErrorView
+import com.barisguneri.earthquakeapp.ui.components.LoadingView
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract

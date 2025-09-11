@@ -25,7 +25,7 @@
     <string name="minutesAgo">dakika önce</string>
     <string name="fewSecondsAgo">birkaç saniye önce</string>
     <string name="invalidDateFormat">Geçersiz tarih formatı</string>
-    <string name="search">Deprem Ara</string>
+    <string name="search">Ara</string>
     <string name="time_range">Zaman aralığı</string>
     <string name="sorted_by">Sırala:</string>
     <string name="time_range_1_hour">Son 1 Saat</string>
@@ -34,4 +34,6 @@
     <string name="time_range_7_days">Son 7 Gün</string>
     <string name="something_went_wrong">Bir şey ters gitti</string>
     <string name="loading_earthquake_data">Deprem verisi yükleniyor...</string>
+    <string name="searchEarthquake">Deprem Ara</string>
+    <string name="filters">Filtreler</string>
 </resources>

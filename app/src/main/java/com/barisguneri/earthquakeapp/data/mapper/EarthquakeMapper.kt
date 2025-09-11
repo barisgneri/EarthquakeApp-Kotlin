@@ -6,21 +6,6 @@ import com.barisguneri.earthquakeapp.data.remote.dto.ResultDTO
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 import com.barisguneri.earthquakeapp.domain.model.Location
 
-fun ResultDTO.toDomain() : EarthquakeInfo {
-    return EarthquakeInfo(
-        id = this.earthquakeId,
-        location = Location(
-            lat = this.geoJson.coordinates[1],
-            lng = this.geoJson.coordinates[0]
-        ),
-        magnitude = this.mag,
-        date = this.date,
-        dateTime = convertDateStringToLong(this.dateTime),
-        depthInfo = this.depth.toString(),
-        title = this.title
-    )
-}
-
 fun ResultDTO.toEntity(): EarthquakeEntity {
 
     return EarthquakeEntity(

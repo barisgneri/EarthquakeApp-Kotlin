@@ -6,9 +6,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.barisguneri.earthquakeapp.core.common.ErrorType
+import com.barisguneri.earthquakeapp.core.data.ErrorType
 import com.barisguneri.earthquakeapp.core.common.NetworkConstants.PAGE_SIZE
-import com.barisguneri.earthquakeapp.core.common.Resource
+import com.barisguneri.earthquakeapp.core.data.Resource
 import com.barisguneri.earthquakeapp.data.local.AppDatabase
 import com.barisguneri.earthquakeapp.data.remote.api.KandilliApiService
 import com.barisguneri.earthquakeapp.data.mapper.toDetailModel

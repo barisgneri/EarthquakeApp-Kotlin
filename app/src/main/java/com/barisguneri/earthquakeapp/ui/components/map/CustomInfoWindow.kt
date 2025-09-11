@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.core.presentation.map
+package com.barisguneri.earthquakeapp.ui.components.map
 
 import android.widget.Button
 import android.widget.TextView

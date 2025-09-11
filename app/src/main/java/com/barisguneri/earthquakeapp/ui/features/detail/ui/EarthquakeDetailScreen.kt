@@ -18,8 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.barisguneri.earthquakeapp.core.common.CollectWithLifecycle
-import com.barisguneri.earthquakeapp.core.presentation.ErrorView
-import com.barisguneri.earthquakeapp.core.presentation.LoadingView
+import com.barisguneri.earthquakeapp.ui.components.ErrorView
+import com.barisguneri.earthquakeapp.ui.components.LoadingView
 import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
 import com.barisguneri.earthquakeapp.ui.features.detail.viewmodel.EarthquakeDetailContract.UiState
 import com.barisguneri.earthquakeapp.ui.features.detail.viewmodel.EarthquakeDetailContract.UiEffect

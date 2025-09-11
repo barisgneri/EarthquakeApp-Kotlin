@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.barisguneri.earthquakeapp.R
-import com.barisguneri.earthquakeapp.core.common.PreviewMockData
+import com.barisguneri.earthquakeapp.core.data.PreviewMockData
 import com.barisguneri.earthquakeapp.core.common.toKmFormattedString
 import com.barisguneri.earthquakeapp.domain.model.Airports
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.colors

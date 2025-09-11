@@ -8,8 +8,6 @@ import androidx.navigation.compose.rememberNavController
 import com.barisguneri.earthquakeapp.ui.navigation.graph.RootNavGraph
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
-import org.osmdroid.config.Configuration
-import org.osmdroid.library.BuildConfig
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

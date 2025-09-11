@@ -2,11 +2,9 @@ package com.barisguneri.earthquakeapp.ui.navigation.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import com.barisguneri.earthquakeapp.ui.features.detail.navigation.DetailNavActions
 import com.barisguneri.earthquakeapp.ui.features.detail.navigation.detailScreen
 import com.barisguneri.earthquakeapp.ui.features.splash.SplashNavActions
-import com.barisguneri.earthquakeapp.ui.features.splash.SplashScreen
 import com.barisguneri.earthquakeapp.ui.features.splash.splashScreen
 import com.barisguneri.earthquakeapp.ui.navigation.MainScreen
 

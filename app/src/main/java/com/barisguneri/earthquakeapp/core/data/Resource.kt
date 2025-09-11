@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.core.common
+package com.barisguneri.earthquakeapp.core.data
 
 sealed class Resource<T> {
     data class Success<T>(val data: T) : Resource<T>()

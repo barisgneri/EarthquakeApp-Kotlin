@@ -27,7 +27,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.colors
-import com.barisguneri.earthquakeapp.ui.theme.AppTheme.dimens
 
 @Composable
 fun EarthquakeBottomBar(

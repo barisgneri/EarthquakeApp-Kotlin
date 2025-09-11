@@ -1,6 +1,6 @@
 package com.barisguneri.earthquakeapp.ui.features.map.viewmodel
 
-import com.barisguneri.earthquakeapp.core.common.ErrorType
+import com.barisguneri.earthquakeapp.core.data.ErrorType
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 
 object MapContract{

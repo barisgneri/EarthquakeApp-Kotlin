@@ -1,6 +1,6 @@
 package com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel
 
-import com.barisguneri.earthquakeapp.core.common.ErrorType
+import com.barisguneri.earthquakeapp.core.data.ErrorType
 import com.barisguneri.earthquakeapp.domain.model.FilterState
 import com.barisguneri.earthquakeapp.domain.model.SortOption
 import com.barisguneri.earthquakeapp.domain.model.TimeRange

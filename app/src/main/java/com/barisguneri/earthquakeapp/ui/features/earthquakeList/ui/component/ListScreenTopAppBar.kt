@@ -98,7 +98,7 @@ fun ListScreenTopAppBar(
                 .fillMaxWidth()
                 .height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(padding.dimension8)
+            horizontalArrangement = Arrangement.spacedBy(padding.dimension4)
         ) {
             OutlinedTextField(
                 value = filterState.searchQuery,
@@ -118,7 +118,7 @@ fun ListScreenTopAppBar(
                 singleLine = true,
                 placeholder = {
                     Text(
-                        text = stringResource(R.string.search),
+                        text = stringResource(R.string.searchEarthquake),
                         fontSize = fontSize.medium,
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = poppinsFontFamily,
@@ -159,7 +159,6 @@ fun ListScreenTopAppBar(
                     .padding(end = padding.dimension12)
                     .fillMaxHeight(),
                 onClick = {
-                    // onAction(UiAction.UpdateSearchQuery(searchText))
                     isExpanded = !isExpanded
                 },
                 colors = ButtonDefaults.buttonColors(
@@ -175,7 +174,7 @@ fun ListScreenTopAppBar(
                 )
                 Text(
                     textAlign = TextAlign.Center,
-                    text = "Search",
+                    text = stringResource(R.string.filters),
                     fontFamily = poppinsFontFamily,
                     fontSize = fontSize.medium,
                     color = colors.text,
@@ -237,7 +236,7 @@ fun SortFilterContent(onAction: (UiAction) -> Unit, filterState: FilterState) {
                     contentColor = if (isSelected) colors.primaryBlue else colors.text
                 )
             ) {
-                Text(text = option.title)
+                Text(text = stringResource(option.title))
             }
         }
     }

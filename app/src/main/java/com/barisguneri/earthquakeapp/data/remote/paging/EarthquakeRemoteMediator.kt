@@ -79,7 +79,7 @@ class EarthquakeRemoteMediator(
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
 
         } catch (e: Exception) {
-            Log.e("RemoteMediator", "Hata oluştu!", e) // <-- Log 6
+            Log.e("RemoteMediator", "Hata oluştu!", e)
             MediatorResult.Error(e)
         }
     }

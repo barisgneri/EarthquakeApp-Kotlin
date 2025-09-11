@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.core.common
+package com.barisguneri.earthquakeapp.core.data
 
 import com.barisguneri.earthquakeapp.domain.model.Airports
 import com.barisguneri.earthquakeapp.domain.model.ClosestCities
