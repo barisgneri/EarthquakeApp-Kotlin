@@ -13,7 +13,7 @@ val buttonLight = Color(0xFF007BFF)
 val textLight = Color(0xFF000000)
 val onTextLight = Color(0xFFFFFFFF)
 val onBackgroundLight = Color(0xFF111C22)
-val textSecondaryLight = Color(0xFF888888)
+val textSecondaryLight = Color(0xFF242424)
 val backgroundLight = Color(0xfff9fafb)
 val cardBackgroundLight = Color(0xFFFFFFFF)
 val grayLight = Color(0xFFD3D3D3)
@@ -29,7 +29,7 @@ val buttonDark = Color(0xFF007BFF)
 val textDark = Color(0xFFFFFFFF)
 val onBackgroundDark = Color(0xfff9fafb)
 val onTextDark = Color(0xFF000000)
-val textSecondaryDark = Color(0xFF888888)
+val textSecondaryDark = Color(0xFFAFAFAF)
 val backgroundDark = Color(0xFF111C22)
 val cardBackgroundDark = Color(0xFF444444)
 val grayDark = Color(0xFF777777)
@@ -97,5 +97,14 @@ data class AppColor(
     val surface: Color,
     val primarySurface: Color,
     val primaryBlue : Color,
-    val secondaryWhite : Color
+    val secondaryWhite : Color,
+    val magnitudeTextRed : Color = Color(0xffe7000b),
+    val magnitudeTextOrange : Color = Color(0xFFffb86a),
+    val magnitudeTextYellow : Color = Color(0xFFffdf20),
+    val magnitudeTextGreen : Color = Color(0xFF7bf1a8),
+    val magnitudeBackgroundRed : Color = Color(0xff82181a),
+    val magnitudeBackgroundOrange : Color = Color(0xFF7e2a0c),
+    val magnitudeBackgroundYellow : Color = Color(0xFF733e0a),
+    val magnitudeBackgroundGreen : Color = Color(0xFF0d542b),
+    val inactiveColor : Color = Color(0xFF4B5563),
 )

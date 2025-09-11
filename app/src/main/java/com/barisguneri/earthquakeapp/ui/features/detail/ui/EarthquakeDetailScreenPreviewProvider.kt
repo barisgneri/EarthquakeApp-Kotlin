@@ -1,8 +1,8 @@
 package com.barisguneri.earthquakeapp.ui.features.detail.ui
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.barisguneri.earthquakeapp.core.common.ErrorType
-import com.barisguneri.earthquakeapp.core.common.PreviewMockData
+import com.barisguneri.earthquakeapp.core.data.ErrorType
+import com.barisguneri.earthquakeapp.core.data.PreviewMockData
 import com.barisguneri.earthquakeapp.ui.features.detail.viewmodel.EarthquakeDetailContract
 
 class EarthquakeDetailScreenPreviewProvider : PreviewParameterProvider<EarthquakeDetailContract.UiState>{

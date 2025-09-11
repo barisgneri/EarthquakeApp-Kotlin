@@ -13,28 +13,22 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.barisguneri.earthquakeapp.R
+import com.barisguneri.earthquakeapp.ui.theme.AppTheme.colors
 import com.barisguneri.earthquakeapp.ui.theme.primaryBlue
 import com.barisguneri.earthquakeapp.ui.theme.secondaryWhite
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(navigateToHome: () -> Unit) {
-
-    // Dalgalanma efekti için fırça (Brush) oluşturma
-    val brush = Brush.linearGradient(
-        colors = listOf(primaryBlue, secondaryWhite.copy(1f)),
-        start = androidx.compose.ui.geometry.Offset(900f, 900f),
-        end = androidx.compose.ui.geometry.Offset(900f, 5f)
-    )
+fun SplashScreen(navActions: SplashNavActions) {
 
     LaunchedEffect(key1 = true) {
-        delay(3000L)
-        navigateToHome()
+        delay(2500L)
+        navActions.navigateToHome()
     }
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush),
+            .background(colors.background),
         contentAlignment = Alignment.Center
     ) {
         Image(

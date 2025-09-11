@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EarthquakeApp</string>
+    <string name="app_name">Son Depremler</string>
     <string name="no_more_load_please_try_again">Daha fazla yüklenemedi. Lütfen tekrar deneyin.</string>
     <string name="try_again">Tekrar Dene</string>
     <string name="list">Liste</string>
@@ -17,5 +17,23 @@
     <string name="dateTime"><![CDATA[Tarih & Saat:]]></string>
     <string name="closestAirport">Yakındaki Havalimanları</string>
     <string name="closestCities">Yakındaki Şehirler</string>
-
+    <string name="yearsAgo">yıl önce</string>
+    <string name="monthAgo">ay önce</string>
+    <string name="weekAgo">hafta önce</string>
+    <string name="daysAgo">gün önce</string>
+    <string name="hoursAgo">saat önce</string>
+    <string name="minutesAgo">dakika önce</string>
+    <string name="fewSecondsAgo">birkaç saniye önce</string>
+    <string name="invalidDateFormat">Geçersiz tarih formatı</string>
+    <string name="search">Ara</string>
+    <string name="time_range">Zaman aralığı</string>
+    <string name="sorted_by">Sırala:</string>
+    <string name="time_range_1_hour">Son 1 Saat</string>
+    <string name="time_range_12_hours">Son 12 Saat</string>
+    <string name="time_range_24_hours">Son 24 Saat</string>
+    <string name="time_range_7_days">Son 7 Gün</string>
+    <string name="something_went_wrong">Bir şey ters gitti</string>
+    <string name="loading_earthquake_data">Deprem verisi yükleniyor...</string>
+    <string name="searchEarthquake">Deprem Ara</string>
+    <string name="filters">Filtreler</string>
 </resources>

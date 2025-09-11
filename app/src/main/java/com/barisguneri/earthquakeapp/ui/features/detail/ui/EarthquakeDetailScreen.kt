@@ -8,22 +8,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.barisguneri.earthquakeapp.core.common.CollectWithLifecycle
-import com.barisguneri.earthquakeapp.core.presentation.ErrorView
-import com.barisguneri.earthquakeapp.core.presentation.LoadingView
+import com.barisguneri.earthquakeapp.ui.components.ErrorView
+import com.barisguneri.earthquakeapp.ui.components.LoadingView
 import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
 import com.barisguneri.earthquakeapp.ui.features.detail.viewmodel.EarthquakeDetailContract.UiState
 import com.barisguneri.earthquakeapp.ui.features.detail.viewmodel.EarthquakeDetailContract.UiEffect
@@ -33,11 +29,9 @@ import com.barisguneri.earthquakeapp.ui.features.detail.ui.component.DetailTopAp
 import com.barisguneri.earthquakeapp.ui.features.detail.navigation.DetailNavActions
 import com.barisguneri.earthquakeapp.ui.features.detail.ui.component.ClosestAirportContent
 import com.barisguneri.earthquakeapp.ui.features.detail.ui.component.ClosestCitiesContent
-import com.barisguneri.earthquakeapp.ui.features.map.component.HeaderDetailContent
+import com.barisguneri.earthquakeapp.ui.features.map.ui.component.HeaderDetailContent
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.colors
-import com.barisguneri.earthquakeapp.ui.theme.AppTheme.dimens
-import com.barisguneri.earthquakeapp.ui.theme.AppTheme.padding
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.typography
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -59,11 +53,11 @@ fun EarthquakeDetailScreen(
     }
 
     when {
-        uiState.isLoading -> LoadingView()
+        uiState.isLoading -> LoadingView(modifier = Modifier.fillMaxSize())
         uiState.error != null -> ErrorView(
             errorType = uiState.error,
-            onRetry = {},
-            modifier = Modifier
+            onRetry = { uiAction(UiAction.Retry) },
+            modifier = Modifier.fillMaxSize()
         )
 
         else -> {
@@ -75,7 +69,6 @@ fun EarthquakeDetailScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EarthquakeDetailContent(
     uiState: UiState,
@@ -107,7 +100,7 @@ fun EarthquakeDetailContent(
                     markersData = MapMarkerData(
                         position = GeoPoint(
                             earthquake.location.lat,
-                            earthquake.location.long
+                            earthquake.location.lng
                         ),
                         title = earthquake.title,
                         depth = earthquake.magnitude.toString(),

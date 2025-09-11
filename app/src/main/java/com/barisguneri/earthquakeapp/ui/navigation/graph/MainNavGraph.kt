@@ -2,24 +2,26 @@ package com.barisguneri.earthquakeapp.ui.navigation.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import com.barisguneri.earthquakeapp.ui.features.detail.navigation.DetailNavActions
 import com.barisguneri.earthquakeapp.ui.features.detail.navigation.detailScreen
-import com.barisguneri.earthquakeapp.ui.features.splash.SplashScreen
+import com.barisguneri.earthquakeapp.ui.features.splash.SplashNavActions
+import com.barisguneri.earthquakeapp.ui.features.splash.splashScreen
 import com.barisguneri.earthquakeapp.ui.navigation.MainScreen
 
 fun NavGraphBuilder.mainNavGraph(
     navController: NavHostController,
 ) {
-    composable<MainScreen.Splash> {
-        SplashScreen {
-            navController.navigate(MainScreen.BottomNavGraph) {
-                popUpTo(MainScreen.Splash) {
-                    inclusive = true
+    splashScreen(
+        actions = SplashNavActions(
+            navigateToHome = {
+                navController.navigate(MainScreen.BottomNavGraph) {
+                    popUpTo(MainScreen.Splash) {
+                        inclusive = true
+                    }
                 }
             }
-        }
-    }
+        )
+    )
     detailScreen(
         actions = DetailNavActions(
             navigateToBack = { navController.popBackStack() }

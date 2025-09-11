@@ -36,7 +36,9 @@ val Dimens = AppDimenSize(
     dp44 = 44.dp,
     dp46 = 46.dp,
     dp48 = 48.dp,
-    dp50 = 50.dp
+    dp50 = 50.dp,
+    dp55 = 55.dp,
+    dp80 = 80.dp,
 )
 
 @Immutable
@@ -67,5 +69,7 @@ data class AppDimenSize(
     val dp44: Dp,
     val dp46: Dp,
     val dp48: Dp,
-    val dp50: Dp
+    val dp50: Dp,
+    val dp55: Dp,
+    val dp80: Dp,
 )

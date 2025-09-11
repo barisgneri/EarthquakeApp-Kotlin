@@ -3,7 +3,7 @@ package com.barisguneri.earthquakeapp.ui.features.detail.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.barisguneri.earthquakeapp.core.common.Resource
+import com.barisguneri.earthquakeapp.core.data.Resource
 import com.barisguneri.earthquakeapp.core.domain.delegate.MVI
 import com.barisguneri.earthquakeapp.domain.useCase.GetEarthquakeDetailUseCase
 import com.barisguneri.earthquakeapp.ui.navigation.MainScreen

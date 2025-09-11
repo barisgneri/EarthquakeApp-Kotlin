@@ -93,6 +93,7 @@ dependencies {
     // Dagger - Hilt
     implementation ("com.google.dagger:hilt-android:2.57")
     implementation("androidx.lifecycle:lifecycle-runtime-compose-android:2.9.2")
+    implementation("androidx.compose.material3:material3:1.3.2")
     kapt ("com.google.dagger:hilt-android-compiler:2.57")
     kapt ("androidx.hilt:hilt-compiler:1.2.0")
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
@@ -117,4 +118,10 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+// Room
+    implementation("androidx.room:room-runtime:2.7.2")
+    kapt("androidx.room:room-compiler:2.7.2")
+    implementation("androidx.room:room-ktx:2.7.2")
+    implementation("androidx.room:room-paging:2.7.2")
+
 }

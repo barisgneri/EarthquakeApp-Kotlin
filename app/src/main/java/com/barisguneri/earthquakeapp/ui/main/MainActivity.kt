@@ -8,16 +8,11 @@ import androidx.navigation.compose.rememberNavController
 import com.barisguneri.earthquakeapp.ui.navigation.graph.RootNavGraph
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
-import org.osmdroid.config.Configuration
-import org.osmdroid.library.BuildConfig
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setUserAgentForOSM()
-
         enableEdgeToEdge()
         setContent {
             AppTheme {
@@ -26,10 +21,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-private fun setUserAgentForOSM(){
-    Configuration.getInstance().userAgentValue = BuildConfig.LIBRARY_PACKAGE_NAME
 }
 
 

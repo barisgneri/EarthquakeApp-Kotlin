@@ -1,10 +1,8 @@
 package com.barisguneri.earthquakeapp.data.mapper
 
-import com.barisguneri.earthquakeapp.data.api.model.AirportDTO
-import com.barisguneri.earthquakeapp.data.api.model.ClosestCityDTO
-import com.barisguneri.earthquakeapp.data.api.model.EarthquakeDTO
-import com.barisguneri.earthquakeapp.data.api.model.EpiCenterDTO
-import com.barisguneri.earthquakeapp.data.api.model.ResultDTO
+import com.barisguneri.earthquakeapp.core.common.convertDateStringToLong
+import com.barisguneri.earthquakeapp.data.remote.dto.EpiCenterDTO
+import com.barisguneri.earthquakeapp.data.remote.dto.ResultDTO
 import com.barisguneri.earthquakeapp.domain.model.Airports
 import com.barisguneri.earthquakeapp.domain.model.ClosestCities
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeDetail
@@ -12,13 +10,13 @@ import com.barisguneri.earthquakeapp.domain.model.EpiCenter
 import com.barisguneri.earthquakeapp.domain.model.Location
 
 fun ResultDTO.toDetailModel() : EarthquakeDetail{
-    val cordinates = Location(this.geoJson.coordinates[1], this.geoJson.coordinates[0])
+    val coordinates = Location(this.geoJson.coordinates[1], this.geoJson.coordinates[0])
     return EarthquakeDetail(
         id = this.earthquakeId,
-        location = cordinates,
+        location = coordinates,
         magnitude = this.mag,
         date = this.date,
-        dateTime = this.dateTime,
+        dateTime = convertDateStringToLong(this.dateTime),
         depthInfo = this.depth.toString(),
         title = this.title,
         airports = this.toAirportsModel(),
