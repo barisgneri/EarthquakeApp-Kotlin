@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.ui.features.map.component
+package com.barisguneri.earthquakeapp.ui.features.map.ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize

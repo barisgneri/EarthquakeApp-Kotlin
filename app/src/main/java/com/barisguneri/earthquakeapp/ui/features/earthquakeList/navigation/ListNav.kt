@@ -6,8 +6,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListScreen
-import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeViewModel
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.ui.EarthquakeListScreen
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeViewModel
 import com.barisguneri.earthquakeapp.ui.navigation.BottomScreen
 
 data class ListNavActions(

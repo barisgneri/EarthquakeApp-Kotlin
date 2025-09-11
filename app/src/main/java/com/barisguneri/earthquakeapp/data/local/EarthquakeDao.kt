@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.barisguneri.earthquakeapp.data.local.model.EarthquakeEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface EarthquakeDao {
@@ -32,4 +33,13 @@ interface EarthquakeDao {
         startTimeStamp: Long,
         sortBy: String
     ): PagingSource<Int, EarthquakeEntity>
+
+    @Query("""
+        SELECT * FROM earthquakes
+        WHERE
+            (:searchQuery = '' OR title LIKE '%' || :searchQuery || '%')
+    """)
+    fun getFilteredAndSortedEarthquakesList(
+        searchQuery: String,
+    ): Flow<List<EarthquakeEntity>>
 }

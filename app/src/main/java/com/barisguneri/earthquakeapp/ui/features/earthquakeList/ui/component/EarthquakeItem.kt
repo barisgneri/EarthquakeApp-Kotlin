@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.ui.features.earthquakeList.component
+package com.barisguneri.earthquakeapp.ui.features.earthquakeList.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

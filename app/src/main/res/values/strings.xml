@@ -32,4 +32,6 @@
     <string name="time_range_12_hours">Son 12 Saat</string>
     <string name="time_range_24_hours">Son 24 Saat</string>
     <string name="time_range_7_days">Son 7 Gün</string>
+    <string name="something_went_wrong">Bir şey ters gitti</string>
+    <string name="loading_earthquake_data">Deprem verisi yükleniyor...</string>
 </resources>

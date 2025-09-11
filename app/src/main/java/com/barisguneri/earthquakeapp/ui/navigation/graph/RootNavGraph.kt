@@ -15,7 +15,7 @@ fun RootNavGraph(
     NavHost(
         modifier = Modifier.then(modifier),
         navController = navController,
-        startDestination = MainScreen.BottomNavGraph,
+        startDestination = MainScreen.Splash,
     ) {
         mainNavGraph(navController = navController)
         bottomNavGraph(navController = navController)

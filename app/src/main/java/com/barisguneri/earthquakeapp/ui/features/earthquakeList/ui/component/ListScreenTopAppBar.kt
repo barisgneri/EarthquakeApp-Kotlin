@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.ui.features.earthquakeList.component
+package com.barisguneri.earthquakeapp.ui.features.earthquakeList.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -53,23 +53,17 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.barisguneri.earthquakeapp.R
-import com.barisguneri.earthquakeapp.core.common.ErrorType
 import com.barisguneri.earthquakeapp.domain.model.FilterState
 import com.barisguneri.earthquakeapp.domain.model.SortOption
 import com.barisguneri.earthquakeapp.domain.model.TimeRange
-import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeListContract.UiAction
-import com.barisguneri.earthquakeapp.ui.features.earthquakeList.EarthquakeViewModel
-import com.barisguneri.earthquakeapp.ui.features.map.MapContract
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract.UiAction
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.colors
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.dimens
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.fontSize
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.padding
 import com.barisguneri.earthquakeapp.ui.theme.poppinsFontFamily
-import kotlinx.coroutines.Job
 
 @Composable
 fun ListScreenTopAppBar(

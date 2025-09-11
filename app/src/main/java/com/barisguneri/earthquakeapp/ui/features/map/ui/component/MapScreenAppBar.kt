@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.ui.features.map.component
+package com.barisguneri.earthquakeapp.ui.features.map.ui.component
 
 // Gerekli import'ları eklediğinden emin ol
 import androidx.compose.foundation.layout.Arrangement

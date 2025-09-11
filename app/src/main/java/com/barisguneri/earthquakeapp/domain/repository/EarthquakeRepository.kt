@@ -13,5 +13,5 @@ interface EarthquakeRepository {
 
     fun getEarthquakeDetail(id: String): Flow<Resource<EarthquakeDetail>>
 
-    fun getEarthquakes(): Flow<Resource<List<EarthquakeInfo>>>
+    fun getMapEarthquakes(filters: FilterState): Flow<List<EarthquakeInfo>>
 }

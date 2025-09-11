@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.ui.features.map
+package com.barisguneri.earthquakeapp.ui.features.map.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -24,8 +24,10 @@ import com.barisguneri.earthquakeapp.core.presentation.ErrorView
 import com.barisguneri.earthquakeapp.core.presentation.LoadingView
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
-import com.barisguneri.earthquakeapp.ui.features.map.component.MapScreenAppBar
-import com.barisguneri.earthquakeapp.ui.features.map.component.MapView
+import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract
+import com.barisguneri.earthquakeapp.ui.features.map.viewmodel.MapContract
+import com.barisguneri.earthquakeapp.ui.features.map.ui.component.MapScreenAppBar
+import com.barisguneri.earthquakeapp.ui.features.map.ui.component.MapView
 import com.barisguneri.earthquakeapp.ui.features.map.navigaiton.MapNavActions
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.padding
@@ -36,8 +38,10 @@ import org.osmdroid.util.GeoPoint
 @Composable
 fun MapScreen(
     uiState: MapContract.UiState,
+    earthquakePinList: List<EarthquakeInfo>,
     uiEffect: Flow<MapContract.UiEffect>,
     onAction: (MapContract.UiAction) -> Unit,
+    onMapAction: (EarthquakeListContract.UiAction) -> Unit,
     navActions: MapNavActions,
 ) {
 
@@ -45,21 +49,24 @@ fun MapScreen(
         when (effect) {
             is MapContract.UiEffect.ShowToast -> {}//Todo: Toast
             is MapContract.UiEffect.NavigateToDetail -> navActions.navigateToDetail(effect.earthquakeId)
+            is MapContract.UiEffect.NavigateToBack -> navActions.navigateToBack()
         }
     }
 
     when {
-        uiState.isLoading -> LoadingView()
+        uiState.isLoading -> LoadingView(modifier = Modifier.fillMaxSize())
         uiState.error != null -> ErrorView(
             errorType = uiState.error,
-            modifier = Modifier.statusBarsPadding(),
+            modifier = Modifier.fillMaxSize(),
             onRetry = { onAction(MapContract.UiAction.Retry) }
         )
 
         else -> {
             MapContent(
                 uiState = uiState,
+                earthquakePinList = earthquakePinList,
                 onAction = onAction,
+                onMapAction = onMapAction
             )
         }
     }
@@ -69,7 +76,9 @@ fun MapScreen(
 @Composable
 fun MapContent(
     uiState: MapContract.UiState,
+    earthquakePinList: List<EarthquakeInfo>,
     onAction: (MapContract.UiAction) -> Unit,
+    onMapAction: (EarthquakeListContract.UiAction) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -77,22 +86,22 @@ fun MapContent(
             .fillMaxSize()
             .background(color = Color.White)
     ) {
-        // MapViewContent en altta
         uiState.earthquake?.let { earthquakeList ->
-            MapViewContent(
-                earthquakeList = earthquakeList,
-                onAction = onAction
-            )
-        }
 
-        // AppBar en üstte
+        }
+        MapViewContent(
+            earthquakeList = earthquakePinList,
+            onAction = onAction,
+            onMapAction = onMapAction
+        )
+
         MapScreenAppBar(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .zIndex(1f)
                 .statusBarsPadding(),
-            onFilterClick = {},
-            onSearchClick = {}
+            onFilterClick = { onAction(MapContract.UiAction.OnFilterClick) },
+            onSearchClick = { onAction(MapContract.UiAction.OnFilterClick) }
         )
 
         IconButton(
@@ -115,6 +124,7 @@ fun MapContent(
 private fun MapViewContent(
     earthquakeList: List<EarthquakeInfo>,
     onAction: (MapContract.UiAction) -> Unit,
+    onMapAction: (EarthquakeListContract.UiAction) -> Unit
 ) {
     MapView(
         modifier = Modifier,
@@ -133,7 +143,8 @@ private fun MapViewContent(
         },
         onButtonClick = { earthquakeId ->
             onAction(MapContract.UiAction.OnEarthquakeClick(earthquakeId))
-        }
+        },
+        onAction = onMapAction
     )
 }
 
@@ -143,8 +154,10 @@ fun MapScreenPreview(@PreviewParameter(MapScreenPreviewProvider::class) uiState:
     AppTheme {
         MapScreen(
             uiState = uiState,
+            earthquakePinList = emptyList(),
             uiEffect = emptyFlow(),
             onAction = {},
+            onMapAction = {},
             navActions = MapNavActions.default,
         )
     }

@@ -15,9 +15,6 @@ import org.osmdroid.library.BuildConfig
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setUserAgentForOSM()
-
         enableEdgeToEdge()
         setContent {
             AppTheme {
@@ -26,10 +23,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-private fun setUserAgentForOSM(){
-    Configuration.getInstance().userAgentValue = BuildConfig.LIBRARY_PACKAGE_NAME
 }
 
 

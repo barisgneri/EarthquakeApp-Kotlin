@@ -1,5 +1,6 @@
 package com.barisguneri.earthquakeapp.ui.theme
 
+import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -14,4 +15,7 @@ class AppIcons {
     val backArrow: ImageVector
         @Composable
         get() = ImageVector.vectorResource(id = R.drawable.arrow_back_48)
+    val errorIcon: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.error_icon)
 }

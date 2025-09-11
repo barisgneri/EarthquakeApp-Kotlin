@@ -1,10 +1,9 @@
-package com.barisguneri.earthquakeapp.ui.features.map
+package com.barisguneri.earthquakeapp.ui.features.map.ui
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.barisguneri.earthquakeapp.core.common.ErrorType
 import com.barisguneri.earthquakeapp.core.common.PreviewMockData
-import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
-import com.barisguneri.earthquakeapp.domain.model.Location
+import com.barisguneri.earthquakeapp.ui.features.map.viewmodel.MapContract
 
 class MapScreenPreviewProvider : PreviewParameterProvider<MapContract.UiState> {
     override val values: Sequence<MapContract.UiState>

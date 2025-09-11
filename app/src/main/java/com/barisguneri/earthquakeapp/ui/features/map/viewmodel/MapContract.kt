@@ -1,4 +1,4 @@
-package com.barisguneri.earthquakeapp.ui.features.map
+package com.barisguneri.earthquakeapp.ui.features.map.viewmodel
 
 import com.barisguneri.earthquakeapp.core.common.ErrorType
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
@@ -14,11 +14,13 @@ object MapContract{
         data object Retry : UiAction
         data object GetEarthquake : UiAction
         data class OnEarthquakeClick(val earthquakeId: String) : UiAction
+        data object OnFilterClick : UiAction
     }
 
     sealed class UiEffect {
         data class ShowToast(val message: String) : UiEffect()
         data class NavigateToDetail(val earthquakeId: String) : UiEffect()
+        data object NavigateToBack : UiEffect()
     }
 }
 

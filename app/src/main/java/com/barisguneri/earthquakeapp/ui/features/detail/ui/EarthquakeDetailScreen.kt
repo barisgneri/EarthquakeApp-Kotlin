@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,7 +29,7 @@ import com.barisguneri.earthquakeapp.ui.features.detail.ui.component.DetailTopAp
 import com.barisguneri.earthquakeapp.ui.features.detail.navigation.DetailNavActions
 import com.barisguneri.earthquakeapp.ui.features.detail.ui.component.ClosestAirportContent
 import com.barisguneri.earthquakeapp.ui.features.detail.ui.component.ClosestCitiesContent
-import com.barisguneri.earthquakeapp.ui.features.map.component.HeaderDetailContent
+import com.barisguneri.earthquakeapp.ui.features.map.ui.component.HeaderDetailContent
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.colors
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.typography
@@ -54,11 +53,11 @@ fun EarthquakeDetailScreen(
     }
 
     when {
-        uiState.isLoading -> LoadingView()
+        uiState.isLoading -> LoadingView(modifier = Modifier.fillMaxSize())
         uiState.error != null -> ErrorView(
             errorType = uiState.error,
-            onRetry = {},
-            modifier = Modifier
+            onRetry = { uiAction(UiAction.Retry) },
+            modifier = Modifier.fillMaxSize()
         )
 
         else -> {
@@ -70,7 +69,6 @@ fun EarthquakeDetailScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EarthquakeDetailContent(
     uiState: UiState,

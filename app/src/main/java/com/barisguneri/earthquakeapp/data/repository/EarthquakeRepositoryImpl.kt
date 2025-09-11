@@ -12,20 +12,16 @@ import com.barisguneri.earthquakeapp.core.common.Resource
 import com.barisguneri.earthquakeapp.data.local.AppDatabase
 import com.barisguneri.earthquakeapp.data.remote.api.KandilliApiService
 import com.barisguneri.earthquakeapp.data.mapper.toDetailModel
-import com.barisguneri.earthquakeapp.data.mapper.toDomain
 import com.barisguneri.earthquakeapp.data.mapper.toDomainModel
 import com.barisguneri.earthquakeapp.data.remote.paging.EarthquakeRemoteMediator
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeDetail
 import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 import com.barisguneri.earthquakeapp.domain.model.FilterState
 import com.barisguneri.earthquakeapp.domain.repository.EarthquakeRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import okio.IOException
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class EarthquakeRepositoryImpl @Inject constructor(
@@ -90,40 +86,11 @@ class EarthquakeRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getEarthquakes(): Flow<Resource<List<EarthquakeInfo>>> = flow {
-        emit(Resource.Loading())
-        try {
-            val apiResponse = apiService.getEarthquakes(skip = 0, limit = 0)
-            if (apiResponse.isSuccessful) {
-                val resultDtoList = apiResponse.body()?.result ?: emptyList()
-                val domainList = resultDtoList.map { it.toDomain() }
-                emit(Resource.Success(domainList))
-            } else {
-                emit(
-                    Resource.Error(
-                        ErrorType.HttpError(
-                            apiResponse.code(),
-                            apiResponse.errorBody().toString()
-                        )
-                    )
-                )
-            }
-        } catch (e: IOException) {
-            emit(Resource.Error(ErrorType.HttpError(404, e.localizedMessage)))
-        } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val statusCode = e.code()
-            val apiError = ErrorType.HttpError(statusCode, errorBody)
-            emit(Resource.Error(apiError))
-        } catch (e: Exception) {
-            emit(
-                Resource.Error(
-                    ErrorType.Unknown(
-                        apiCode = 404,
-                        message = e.localizedMessage ?: "Unknown error"
-                    )
-                )
-            )
+    override fun getMapEarthquakes(filters: FilterState): Flow<List<EarthquakeInfo>> {
+        return earthquakeDao.getFilteredAndSortedEarthquakesList(
+            searchQuery = filters.searchQuery,
+        ).map { entityList ->
+            entityList.map { it.toDomainModel() }
         }
-    }.flowOn(Dispatchers.IO)
+    }
 }

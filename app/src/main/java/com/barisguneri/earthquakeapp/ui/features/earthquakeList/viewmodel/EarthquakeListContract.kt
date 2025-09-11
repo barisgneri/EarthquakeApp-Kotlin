@@ -1,19 +1,17 @@
-package com.barisguneri.earthquakeapp.ui.features.earthquakeList
+package com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel
 
-import androidx.paging.PagingData
 import com.barisguneri.earthquakeapp.core.common.ErrorType
-import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 import com.barisguneri.earthquakeapp.domain.model.FilterState
 import com.barisguneri.earthquakeapp.domain.model.SortOption
 import com.barisguneri.earthquakeapp.domain.model.TimeRange
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import org.osmdroid.util.BoundingBox
 
 object EarthquakeListContract{
     data class UiState(
         val filterState: FilterState = FilterState(),
         val isLoading: Boolean = false,
-        val error: ErrorType? = null
+        val error: ErrorType? = null,
+        val mapBounds: BoundingBox? = null
     )
     sealed interface UiAction{
         data object Retry : UiAction
@@ -23,6 +21,7 @@ object EarthquakeListContract{
         data class UpdateMagnitude(val magnitude: Float) : UiAction
         data class UpdateTimeRange(val range: TimeRange) : UiAction
         data class UpdateSortBy(val option: SortOption) : UiAction
+        data class UpdateMapBounds(val bounds: BoundingBox) : UiAction
     }
     sealed class UiEffect {
         data class ShowToast(val message: String) : UiEffect()
