@@ -14,6 +14,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "EarthquakeApp"
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
  

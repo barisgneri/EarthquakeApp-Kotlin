@@ -5,7 +5,7 @@ data class EarthquakeInfo(
     val location: Location,
     val magnitude: Double,
     val date: String,
-    val dateTime : Long,
+    val dateTime : String,
     val depthInfo: String,
     val title: String,
 )
