@@ -43,6 +43,7 @@ fun NavGraphBuilder.bottomNavGraph(
 
             ) {
                 listScreen(
+                    navController = navController,
                     ListNavActions(
                         navigateToDetail = { id ->
                             navController.navigate(route = MainScreen.Detail(id)){}
@@ -50,6 +51,7 @@ fun NavGraphBuilder.bottomNavGraph(
                     )
                 )
                 mapScreen(
+                    navController = navController,
                     MapNavActions(
                         navigateToDetail = { id ->
                             navController.navigate(route = MainScreen.Detail(id)) {

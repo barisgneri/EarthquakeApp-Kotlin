@@ -13,17 +13,8 @@ class MapViewModel @Inject constructor() :
 
     override fun onAction(uiAction: UiAction) {
         when (uiAction) {
-            is UiAction.GetEarthquake -> {}
-            is UiAction.Retry -> {}
-            is UiAction.OnEarthquakeClick -> {
-                emitUiEffect(
-                    effect = UiEffect.NavigateToDetail(
-                        uiAction.earthquakeId
-                    )
-                )
+            UiAction.Retry -> {
             }
-
-            is UiAction.OnFilterClick -> emitUiEffect(effect = UiEffect.NavigateToBack)
         }
     }
 }

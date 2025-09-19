@@ -23,13 +23,13 @@ import com.barisguneri.earthquakeapp.domain.model.EarthquakeInfo
 import com.barisguneri.earthquakeapp.ui.components.ErrorView
 import com.barisguneri.earthquakeapp.ui.components.LoadingView
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.ui.component.EarthquakeItem
-import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract.UiState
-import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract.UiEffect
-import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract.UiAction
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.ui.component.ListScreenTopAppBar
 import com.barisguneri.earthquakeapp.ui.features.earthquakeList.navigation.ListNavActions
 import com.barisguneri.earthquakeapp.ui.theme.AppTheme.colors
 import kotlinx.coroutines.flow.Flow
+import com.barisguneri.earthquakeapp.ui.main.SharedContract.UiAction
+import com.barisguneri.earthquakeapp.ui.main.SharedContract.UiState
+import com.barisguneri.earthquakeapp.ui.main.SharedContract.UiEffect
 
 @Composable
 fun EarthquakeListScreen(

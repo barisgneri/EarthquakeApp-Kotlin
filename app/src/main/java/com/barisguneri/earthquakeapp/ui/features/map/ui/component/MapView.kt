@@ -13,7 +13,6 @@ import com.barisguneri.earthquakeapp.core.common.convertLongToDateString
 import com.barisguneri.earthquakeapp.core.common.magIcon
 import com.barisguneri.earthquakeapp.ui.components.map.CustomInfoWindow
 import com.barisguneri.earthquakeapp.domain.model.MapMarkerData
-import com.barisguneri.earthquakeapp.ui.features.earthquakeList.viewmodel.EarthquakeListContract
 import org.osmdroid.events.MapListener
 import org.osmdroid.events.ScrollEvent
 import org.osmdroid.events.ZoomEvent
@@ -21,13 +20,14 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
+import com.barisguneri.earthquakeapp.ui.main.SharedContract.UiAction
 
 @Composable
 fun MapView(
     modifier: Modifier = Modifier,
     markersData: List<MapMarkerData>,
     onButtonClick: (String) -> Unit,
-    onAction: (EarthquakeListContract.UiAction) -> Unit,
+    onAction: (UiAction) -> Unit,
 ) {
     val iconCache = remember { mutableMapOf<Double, Drawable>() }
 
@@ -40,13 +40,13 @@ fun MapView(
             val mapListener = object : MapListener {
                 override fun onScroll(event: ScrollEvent?): Boolean {
                     event?.source?.boundingBox?.let {
-                        onAction(EarthquakeListContract.UiAction.UpdateMapBounds(it))
+                        onAction(UiAction.UpdateMapBounds(it))
                     }
                     return true
                 }
                 override fun onZoom(event: ZoomEvent?): Boolean {
                     event?.source?.boundingBox?.let {
-                        onAction(EarthquakeListContract.UiAction.UpdateMapBounds(it))
+                        onAction(UiAction.UpdateMapBounds(it))
                     }
                     return true
                 }

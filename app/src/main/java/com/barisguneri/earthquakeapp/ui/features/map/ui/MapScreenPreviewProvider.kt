@@ -2,31 +2,26 @@ package com.barisguneri.earthquakeapp.ui.features.map.ui
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.barisguneri.earthquakeapp.core.data.ErrorType
-import com.barisguneri.earthquakeapp.core.data.PreviewMockData
-import com.barisguneri.earthquakeapp.ui.features.map.viewmodel.MapContract
+import com.barisguneri.earthquakeapp.ui.main.SharedContract
 
-class MapScreenPreviewProvider : PreviewParameterProvider<MapContract.UiState> {
-    override val values: Sequence<MapContract.UiState>
+class MapScreenPreviewProvider : PreviewParameterProvider<SharedContract.UiState> {
+    override val values: Sequence<SharedContract.UiState>
         get() = sequenceOf(
-            MapContract.UiState(
+            SharedContract.UiState(
                 isLoading = true,
                 error = null,
-                earthquake = null
             ),
-            MapContract.UiState(
+            SharedContract.UiState(
                 isLoading = false,
                 error = ErrorType.TooManyRequests,
-                earthquake = null
             ),
-            MapContract.UiState(
+            SharedContract.UiState(
                 isLoading = false,
                 error = ErrorType.HttpError(code = 404, "Bilinmeyen Hata"),
-                earthquake = null
             ),
-            MapContract.UiState(
+            SharedContract.UiState(
                 isLoading = false,
                 error = null,
-                earthquake = PreviewMockData.earthquakeInfoModel
             )
 
         )
