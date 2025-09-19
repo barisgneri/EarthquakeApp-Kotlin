@@ -76,7 +76,6 @@ fun darkColors(): AppColor = AppColor(
     secondaryWhite = secondaryWhite,
 )
 
-
 @Immutable
 data class AppColor(
     val primary: Color,

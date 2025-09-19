@@ -8,7 +8,6 @@ import androidx.compose.ui.unit.sp
 internal val LocalFontSize = staticCompositionLocalOf<AppFontSize> {
     error("No default font size provided")
 }
-
 val FontSize = AppFontSize(
     small = 12.sp,
     mediumSmall = 14.sp,

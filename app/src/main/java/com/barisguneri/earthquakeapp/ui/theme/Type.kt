@@ -12,7 +12,6 @@ import com.barisguneri.earthquakeapp.ui.theme.AppTheme.colors
 internal val LocalTypography = staticCompositionLocalOf<AppTypography> {
     error("No default typography provided")
 }
-
 val Typography = AppTypography(
     headSizeTitleThin = {
         TextStyle(

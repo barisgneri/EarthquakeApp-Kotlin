@@ -9,6 +9,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 
 val LocalActivity = staticCompositionLocalOf<Activity?> { null }
+
 object AppTheme {
     val colors: AppColor
         @Composable

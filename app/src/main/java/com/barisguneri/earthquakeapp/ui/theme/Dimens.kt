@@ -8,7 +8,6 @@ import androidx.compose.ui.unit.dp
 internal val LocalDimenSize = staticCompositionLocalOf<AppDimenSize> {
     error("No default dimen size provided")
 }
-
 val Dimens = AppDimenSize(
     dp0 = 0.dp,
     dp1 = 1.dp,

@@ -1,6 +1,5 @@
 package com.barisguneri.earthquakeapp.ui.theme
 
-import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf

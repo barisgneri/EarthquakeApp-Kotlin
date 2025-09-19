@@ -5,6 +5,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import com.barisguneri.earthquakeapp.R
 
+
 val poppinsFontFamily = FontFamily(
     Font(R.font.poppins_light, FontWeight.Light),
     Font(R.font.poppins, FontWeight.Medium),
