@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.application") version "8.10.0" apply false
-    id("com.android.library") version "8.10.0" apply false
-    id("org.jetbrains.kotlin.android") version "2.0.0" apply false
-    id ("com.google.dagger.hilt.android") version "2.51.1" apply false
+    alias(libs.plugins.android.application) version libs.versions.androidGradlePlugin.get() apply false
+    alias(libs.plugins.android.library) version libs.versions.androidGradlePlugin.get() apply false
+    alias(libs.plugins.kotlin.compose) version libs.versions.kotlinCompose apply false
+    alias(libs.plugins.google.hilt) version libs.versions.hiltPlugin apply false
 }
