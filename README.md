@@ -14,7 +14,6 @@ EarthquakeApp-Kotlin, Türkiye ve çevresindeki son depremleri listeleyen ve har
     * Tarihe veya büyüklüğe göre sıralama.
 * **Arama:** Deprem listesinde lokasyon bazlı arama yapma imkanı.
 * **Paging:** Sonsuz kaydırma (infinite scroll) ile verimli veri yüklemesi.
-* **Çevrimdışı Destek:** Veriler yerel bir veritabanında saklanarak çevrimdışı erişim sağlanır.
 
 ## 🏛️ Mimarî
 
